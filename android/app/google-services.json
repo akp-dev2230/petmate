@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8394062866",
+    "project_id": "petmate-c58b3",
+    "storage_bucket": "petmate-c58b3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8394062866:android:e6bbe1ec77c1ba73126ccb",
+        "android_client_info": {
+          "package_name": "com.example.petmate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaMktY79msokiOWEwww08eu9zk9wlT80k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
