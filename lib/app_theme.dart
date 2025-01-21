@@ -3,10 +3,6 @@ import 'package:flutter/material.dart';
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    // colorScheme: ColorScheme.fromSeed(
-    //   seedColor: Colors.white,
-    //   brightness: Brightness.light,
-    // ),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
@@ -14,16 +10,12 @@ class AppTheme {
     ),
     useMaterial3: true,
     textTheme: const TextTheme(
-      bodyLarge: TextStyle(fontSize: 16, color: Colors.black),
+      bodyLarge: TextStyle(fontSize: 18, color: Colors.black),
     ),
   );
 
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
-    // colorScheme: ColorScheme.fromSeed(
-    //   seedColor: const Color(0xff3E5879),
-    //   brightness: Brightness.dark,
-    // ),
     appBarTheme: const AppBarTheme(
       backgroundColor: Color(0xFF1E2433),
       foregroundColor: Colors.white,
@@ -31,7 +23,7 @@ class AppTheme {
     ),
     useMaterial3: true,
     textTheme: const TextTheme(
-      bodyLarge: TextStyle(fontSize: 16, color: Colors.white),
+      bodyLarge: TextStyle(fontSize: 18, color: Colors.white),
     ),
   );
 }
