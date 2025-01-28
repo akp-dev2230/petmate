@@ -39,7 +39,7 @@ class _IntroPageState extends State<IntroPage> {
                       height: MediaQuery.of(context).orientation == Orientation.portrait ? screenHeight*0.10 : screenHeight*0.25,
                       width: MediaQuery.of(context).orientation == Orientation.portrait ? screenWidth*0.22 : screenWidth*0.13,
                       decoration: BoxDecoration(
-                        image: const DecorationImage(image: AssetImage('assets/images/applogo.jpg'),fit: BoxFit.cover),
+                        image: const DecorationImage(image: AssetImage('assets/images/PETMATE3.jpg'),fit: BoxFit.cover),
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
@@ -108,7 +108,7 @@ class _IntroPageState extends State<IntroPage> {
                 SizedBox(height: screenHeight*0.02),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const Display()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Display()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.greenAccent,

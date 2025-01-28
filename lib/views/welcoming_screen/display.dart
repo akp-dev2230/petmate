@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:petmate/loginscreen.dart';
+import 'package:petmate/views/authentication_screen/loginscreen.dart';
+import 'package:petmate/views/authentication_screen/signupscreen.dart';
 
 class Display extends StatefulWidget {
   const Display({super.key});
@@ -41,12 +42,12 @@ class _OnboardingScreenState extends State<Display> {
         curve: Curves.easeInOut,
       );
     } else {
-      _navigateToLogin();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Loginscreen()),);
     }
   }
 
-  void _navigateToLogin() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Loginscreen()),);
+  void _navigateToSignUp() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const SignUpScreen()));
   }
 
   Widget _buildDot(bool isActive) {
@@ -162,9 +163,9 @@ class _OnboardingScreenState extends State<Display> {
                       ),
                     ),
                     TextButton(
-                      onPressed: _navigateToLogin,
+                      onPressed: _navigateToSignUp,
                       child: Text(
-                        "Login later",
+                        "Sign Up",
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),

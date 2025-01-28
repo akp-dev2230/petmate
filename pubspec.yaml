@@ -37,9 +37,10 @@ dependencies:
   cupertino_icons: ^1.0.6
   firebase_core:
   firebase_auth:
-  firebase_storage:
   cloud_firestore:
   lottie:
+  intl_phone_field:
+  pinput:
 
 dev_dependencies:
   flutter_test:
