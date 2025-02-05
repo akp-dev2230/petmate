@@ -4,7 +4,8 @@ import 'package:petmate/commonwidgets/commonbutton.dart';
 import 'package:petmate/commonwidgets/commontextfield.dart';
 import 'package:petmate/views/authentication_screen/auth_service.dart';
 import 'package:petmate/views/authentication_screen/forgetpasswordscreen.dart';
-import 'package:petmate/views/home.dart';
+import 'package:petmate/views/landing_screen/landing1.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
         email: emailController.text,
         password: passController.text,
       ).then((value){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Home()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const First()));
       });
     }catch(e){
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
