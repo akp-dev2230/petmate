@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:petmate/app_theme.dart';
-import 'package:petmate/views/home.dart';
+import 'package:petmate/views/landing_screen/landing1.dart';
 import 'package:petmate/views/welcoming_screen/intropage.dart';
 
 void main() async{
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme(context),
       darkTheme: AppTheme.darkTheme(context),
       themeMode: ThemeMode.system,
-      home: isLoggedIn ? const Home() : const IntroPage(),
+      home: isLoggedIn ? const First() : const IntroPage(),
     );
   }
 }
