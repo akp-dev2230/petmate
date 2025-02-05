@@ -42,7 +42,7 @@ class _OnboardingScreenState extends State<Display> {
         curve: Curves.easeInOut,
       );
     } else {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Loginscreen()),);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()),);
     }
   }
 

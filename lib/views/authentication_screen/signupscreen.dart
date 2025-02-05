@@ -26,10 +26,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         email: emailController.text,
         password: passController.text,
       ).then((value){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Loginscreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
       });
     }catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e", style: Theme.of(context).textTheme.bodyLarge,)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.white,
+        content: Text("Error: $e", style: const TextStyle(fontSize: 16),),
+      ));
     }
   }
 

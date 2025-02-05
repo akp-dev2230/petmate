@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget commonButton({width, height, onNavigate,buttonName}){
+Widget commonButton({width, height, onNavigate, buttonName}){
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
       backgroundColor: Colors.greenAccent,

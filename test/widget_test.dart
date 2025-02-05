@@ -11,20 +11,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:petmate/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('App launches correctly and shows the appropriate screen', (WidgetTester tester) async {
+    // Case 1: User is NOT logged in (should show IntroPage)
+    await tester.pumpWidget(const MyApp(isLoggedIn: false, userId: null));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify IntroPage is displayed
+    expect(find.text('Get Started'), findsOneWidget);
+    expect(find.text('Welcome to PetMate!'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Case 2: User is logged in (should show Home page)
+    await tester.pumpWidget(const MyApp(isLoggedIn: true, userId: 'testUserId'));
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify Home screen is displayed
+    expect(find.text('Home'), findsOneWidget);
+    expect(find.text('Welcome to Home Page!'), findsOneWidget);
   });
 }

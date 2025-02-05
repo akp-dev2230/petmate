@@ -12,7 +12,10 @@ class AuthService {
       userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email, password: password);
     } on FirebaseAuthException catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e", style: Theme.of(context).textTheme.bodyLarge,)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.white,
+        content: Text("Error: $e", style: const TextStyle(fontSize: 16),),
+      ));
     }
     return userCredential;
   }
@@ -30,11 +33,17 @@ class AuthService {
       User? user = userCredential.user;
       if (user != null && !user.emailVerified) {
         await user.sendEmailVerification().then((value){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Verification email sent. Please check your inbox.", style: Theme.of(context).textTheme.bodyLarge,)));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: Colors.white,
+            content: Text("Verification email sent. Please check your inbox.", style: TextStyle(fontSize: 16),),
+          ));
         }); // Send verification email
       }
     } on FirebaseAuthException catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e", style: Theme.of(context).textTheme.bodyLarge,)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.white,
+        content: Text("Error: $e", style: const TextStyle(fontSize: 16),),
+      ));
     }
     return userCredential;
   }
@@ -53,10 +62,16 @@ class AuthService {
   Future<void> logoutMethod({required BuildContext context}) async{
     try{
       await FirebaseAuth.instance.signOut().then((value){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("successfully logout", style: Theme.of(context).textTheme.bodyLarge,)));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          backgroundColor: Colors.white,
+          content: Text("successfully logout", style: TextStyle(fontSize: 16),),
+        ));
       });
     }catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("successfully logout", style: Theme.of(context).textTheme.bodyLarge,)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.white,
+        content: Text("Error: $e", style: const TextStyle(fontSize: 16),),
+      ));
     }
   }
 
@@ -66,7 +81,10 @@ class AuthService {
     try{
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
     }on FirebaseAuthException catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e", style: Theme.of(context).textTheme.bodyLarge,)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.white,
+        content: Text("Error: $e", style: const TextStyle(fontSize: 16),),
+      ));
     }
   }
 

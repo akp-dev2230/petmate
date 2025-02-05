@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:petmate/commonwidgets/commonbutton.dart';
 import 'package:petmate/commonwidgets/commontextfield.dart';
 import 'package:petmate/views/authentication_screen/auth_service.dart';
+import 'package:petmate/views/authentication_screen/forgetpasswordscreen.dart';
 import 'package:petmate/views/home.dart';
 
-class Loginscreen extends StatefulWidget {
-  const Loginscreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<Loginscreen> createState() => _LoginscreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginscreenState extends State<Loginscreen> {
+class _LoginScreenState extends State<LoginScreen> {
 
   final AuthService _authService = AuthService();
   TextEditingController emailController = TextEditingController();
@@ -29,7 +30,10 @@ class _LoginscreenState extends State<Loginscreen> {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Home()));
       });
     }catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e", style: Theme.of(context).textTheme.bodyLarge,)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.white,
+        content: Text("Error: $e", style: const TextStyle(fontSize: 16),),
+      ));
     }
   }
 
@@ -98,7 +102,20 @@ class _LoginscreenState extends State<Loginscreen> {
                   buttonName: "Login",
                   onNavigate: ()=>login(context: context),
                 ),
-                SizedBox(height: MediaQuery.of(context).orientation == Orientation.portrait ? screenHeight*0.04 : screenHeight*0.06),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const ForgetPasswordScreen()));
+                      },
+                      child: Text(
+                        "Forget Password ?",
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    )
+                  ],
+                ),
                 const Divider(height: 1,),
                 Center(
                   child: Text(
