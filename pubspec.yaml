@@ -38,6 +38,7 @@ dependencies:
   firebase_core:
   firebase_auth:
   cloud_firestore:
+  get:
   lottie:
   intl_phone_field:
   pinput:

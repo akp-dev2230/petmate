@@ -4,80 +4,28 @@ import 'package:petmate/views/Clinic/clinic.dart';
 import 'package:petmate/views/Pharmacy/pharmacy.dart';
 import 'package:petmate/views/Userinfo/accountinfo.dart';
 import 'package:petmate/views/authentication_screen/loginscreen.dart';
-import 'package:petmate/views/categories/options.dart';
+import 'package:petmate/views/categories/category_screen.dart';
 
-class First extends StatefulWidget {
-  const First({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<First> createState() => _FirstState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _FirstState extends State<First> {
-  int _selectedIndex = 0; // Keeps track of the selected tab
+class _HomeScreenState extends State<HomeScreen> {
 
-  // List of Screens for Bottom Navigation
-  final List<Widget> _pages = [
-    HomeScreen(),
-    const Options(), // Categories screen
-    const Pharmacy(), // Placeholder for Offer Zone
-    const Clinic(), // Placeholder for Pharmacy
-    const Accountinfo(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index; // Update selected tab
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Listen for authentication state changes
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null && mounted) {
-        // Navigate to login screen if user is logged out
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
-      }
-    });
-  }
+  final drawerIconList = [Icons.home, Icons.category, Icons.local_offer, Icons.local_pharmacy, Icons.person];
+  final drawerIconName = ['Home', 'Categories', 'Offer Zone', 'Pharmacy', 'Account'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex], // Display selected page
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.orange,
-        unselectedItemColor: Colors.grey,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.category), label: "Categories"),
-          BottomNavigationBarItem(icon: Icon(Icons.local_pharmacy), label: "Pharmacy"),
-          BottomNavigationBarItem(icon: Icon(Icons.add_rounded), label: "Clinic"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
-        ],
-      ),
-    );
-  }
-}
-
-// Main Home Screen
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.lightGreenAccent,
+        backgroundColor: Colors.greenAccent,
         elevation: 0,
-        title: Row(
+        title: const Row(
           children: [
             Icon(Icons.location_on, color: Colors.black),
             SizedBox(width: 5),
@@ -86,43 +34,29 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       drawer: Drawer(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(color: Colors.lightGreenAccent),
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.greenAccent),
               child: Text('Menu', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(Icons.category),
-              title: Text('Categories'),
-              onTap: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Options()));
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: drawerIconName.length,
+              itemBuilder: (BuildContext context, int index){
+                return ListTile(
+                  leading: Icon(drawerIconList[index]),
+                  title: Text(drawerIconName[index], style: Theme.of(context).textTheme.bodyLarge,),
+                  onTap: (){},
+                );
               },
             ),
             ListTile(
-              leading: Icon(Icons.local_offer),
-              title: Text('Offer Zone'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(Icons.local_pharmacy),
-              title: Text('Pharmacy'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Account'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              leading: const Icon(Icons.logout),
+              title: Text('Logout', style: Theme.of(context).textTheme.bodyLarge,),
               onTap: () async {
                 await FirebaseAuth.instance.signOut().then((value) {
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
@@ -137,17 +71,17 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: "Search for Food, Treats, Pharmacy, Henlo",
-                  prefixIcon: Icon(Icons.search),
+                  hintText: "Search for Food, Treats, Pharmacy",
+                  prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -174,7 +108,6 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-// CategoryChip Widget
 class CategoryChip extends StatelessWidget {
   final String label;
   final bool isSelected;
