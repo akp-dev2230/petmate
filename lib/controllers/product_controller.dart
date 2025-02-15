@@ -7,6 +7,7 @@ class ProductController extends GetxController{
 
   var quantity = 0.obs;
   var totalPrice = 0.obs;
+  var isFav = false.obs;
 
   increaseQuantity(totalQuantity){
     if(quantity.value < totalQuantity){
@@ -45,6 +46,28 @@ class ProductController extends GetxController{
         content: Text("Error: $error", style: const TextStyle(fontSize: 16),),
       ));
     });
+  }
+
+  addToWishlist(docId,context) async{
+    await FirebaseFirestore.instance.collection("products").doc(docId).set({
+      'p_wishlist': FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
+    }, SetOptions(merge: true));
+    isFav(true);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      backgroundColor: Colors.white,
+      content: Text("Added to wishlist", style: TextStyle(fontSize: 16),),
+    ));
+  }
+
+  removeFromWishlist(docId,context) async{
+    await FirebaseFirestore.instance.collection("products").doc(docId).set({
+      'p_wishlist': FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
+    }, SetOptions(merge: true));
+    isFav(false);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      backgroundColor: Colors.white,
+      content: Text("Remove from wishlist", style: TextStyle(fontSize: 16),),
+    ));
   }
 
 }

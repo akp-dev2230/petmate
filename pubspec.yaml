@@ -41,7 +41,9 @@ dependencies:
   get:
   lottie:
   intl_phone_field:
-  pinput:
+  flutter_rating_bar:
+  share_plus:
+
 
 dev_dependencies:
   flutter_test:

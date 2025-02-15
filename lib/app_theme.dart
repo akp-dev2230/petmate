@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -15,6 +16,7 @@ class AppTheme {
       useMaterial3: true,
       textTheme: TextTheme(
         bodyLarge: TextStyle(fontSize: fontSize, color: Colors.black),
+        bodyMedium: const TextStyle(fontSize: 16, color: Colors.black87)
       ),
     );
   }
@@ -33,6 +35,7 @@ class AppTheme {
       useMaterial3: true,
       textTheme: TextTheme(
         bodyLarge: TextStyle(fontSize: fontSize, color: Colors.white),
+        bodyMedium: const TextStyle(fontSize: 16, color: CupertinoColors.systemGrey4),
       ),
     );
   }

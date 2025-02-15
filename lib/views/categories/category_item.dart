@@ -16,7 +16,7 @@ class CategoryItem extends StatelessWidget {
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.greenAccent,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         title: Text("$title", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),)
       ),
       body: StreamBuilder(
