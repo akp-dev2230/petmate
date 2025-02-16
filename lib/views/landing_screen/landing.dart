@@ -53,9 +53,10 @@ class _LandingState extends State<Landing> {
     return Scaffold(
       body: _pages[_selectedIndex], // Display selected page
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.green,
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black54,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: const[

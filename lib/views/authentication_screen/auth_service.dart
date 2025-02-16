@@ -54,6 +54,7 @@ class AuthService {
     await store.set({
       'email': email,
       'password': password,
+      'id': FirebaseAuth.instance.currentUser!.uid,
     });
   }
 
