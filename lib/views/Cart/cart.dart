@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petmate/views/Cart/editaddress.dart';
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -72,7 +73,11 @@ class _CartState extends State<Cart> {
                 Text("Delivering to "),
                 Text("140603", style: TextStyle(fontWeight: FontWeight.bold)),
                 Spacer(),
-                Icon(Icons.edit, color: Colors.orange),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Editaddress()));
+                  },
+                    child:Icon(Icons.edit, color: Colors.orange)),
               ],
             ),
           ),
