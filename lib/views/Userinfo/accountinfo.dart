@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petmate/Services/firestore_services.dart';
+import 'package:petmate/controllers/profile_controller.dart';
 import 'package:petmate/views/authentication_screen/loginscreen.dart';
 
 class Accountinfo extends StatelessWidget {
@@ -10,6 +11,8 @@ class Accountinfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    var controller = Get.put(ProfileController());
 
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -42,11 +45,25 @@ class Accountinfo extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const CircleAvatar(
-                        radius: 70,
-                        backgroundImage: NetworkImage(
-                          "https://i.pravatar.cc/150", // Replace with actual image
-                        ),
+                      Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 70,
+                            backgroundImage: (data['profileImageUrl'] != null && data['profileImageUrl'].toString().isNotEmpty)
+                                ? NetworkImage(data['profileImageUrl'])
+                                : const AssetImage("assets/images/bansalbhand.jpg") as ImageProvider,
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: IconButton(
+                              icon: const Icon(Icons.edit, size: 30, color: Colors.orangeAccent,),
+                              onPressed: (){
+                                controller.pickAndUploadPhoto();
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(height: screenHeight*0.02),
                       Text("Name", style: Theme.of(context).textTheme.bodyLarge,
@@ -71,8 +88,15 @@ class Accountinfo extends StatelessWidget {
                             itemCount: 5,
                             itemBuilder: (context, index){
                               return ListTile(
-                                leading: Icon(profileIcons[index], color: Colors.teal,),
-                                title: Text(profileIconsTitle[index], style: TextStyle(fontSize: 18, color: Colors.black),),
+                                leading: Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.teal.shade50,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Icon(profileIcons[index], color: Colors.teal,),
+                                ),
+                                title: Text(profileIconsTitle[index], style: const TextStyle(fontSize: 18, color: Colors.black),),
                                 trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black,),
                                 onTap: (){},
                               );
@@ -80,7 +104,14 @@ class Accountinfo extends StatelessWidget {
                           ),
                           const Divider(),
                           ListTile(
-                            leading: const Icon(Icons.logout, color: Colors.red,),
+                            leading: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                color: Colors.redAccent.withAlpha(25),
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: const Icon(Icons.logout, color: Colors.red,),
+                            ),
                             title: const Text(
                               "Log out",
                               style: TextStyle(color: Colors.red),

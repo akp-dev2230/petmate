@@ -55,6 +55,8 @@ class AuthService {
       'email': email,
       'password': password,
       'id': FirebaseAuth.instance.currentUser!.uid,
+      'name': "",
+      'profileImageUrl': "",
     });
   }
 
