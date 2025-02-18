@@ -17,8 +17,8 @@ class Accountinfo extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    final profileIcons = [Icons.account_balance, Icons.person, Icons.favorite_outline, Icons.policy, Icons.help_outline];
-    final profileIconsTitle = ["Account setup", "Profile setting", "Wishlist", "Privacy policy", "Help and support",];
+    final profileIcons = [Icons.account_balance, Icons.person, Icons.favorite_outline, Icons.home_filled, Icons.policy, Icons.help_outline];
+    final profileIconsTitle = ["Account setup", "Profile setting", "Wishlist", "Add Address", "Privacy policy", "Help and support",];
 
     return Scaffold(
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
@@ -98,7 +98,9 @@ class Accountinfo extends StatelessWidget {
                                 ),
                                 title: Text(profileIconsTitle[index], style: const TextStyle(fontSize: 18, color: Colors.black),),
                                 trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black,),
-                                onTap: (){},
+                                onTap: (){
+
+                                },
                               );
                             },
                           ),

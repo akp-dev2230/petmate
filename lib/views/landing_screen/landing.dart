@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:petmate/views/Cart/cart.dart';
 import 'package:petmate/views/Clinic/clinic.dart';
 import 'package:petmate/views/Pharmacy/pharmacy.dart';
 import 'package:petmate/views/Userinfo/accountinfo.dart';
@@ -20,9 +21,9 @@ class _LandingState extends State<Landing> {
   // List of Screens for Bottom Navigation
   final List<Widget> _pages = [
     const HomeScreen(),
-    const CategoryScreen(), // Categories screen
-    const Pharmacy(), // Placeholder for Offer Zone
-    const Clinic(), // Placeholder for Pharmacy
+    const CategoryScreen(),
+    const Clinic(),
+    const Cart(),
     const Accountinfo(),
   ];
 
@@ -62,8 +63,8 @@ class _LandingState extends State<Landing> {
         items: const[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.category), label: "Categories"),
-          BottomNavigationBarItem(icon: Icon(Icons.local_pharmacy), label: "Pharmacy"),
           BottomNavigationBarItem(icon: Icon(Icons.add_rounded), label: "Clinic"),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
         ],
       ),
