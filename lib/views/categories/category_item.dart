@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,8 +5,8 @@ import 'package:petmate/Services/firestore_services.dart';
 import 'package:petmate/views/categories/item_detail.dart';
 
 class CategoryItem extends StatelessWidget {
-  final String? title;
-  const CategoryItem({super.key, required this.title});
+  final String? categoryName;
+  const CategoryItem({super.key, required this.categoryName});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +15,10 @@ class CategoryItem extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.greenAccent,
         iconTheme: const IconThemeData(color: Colors.black),
-        title: Text("$title", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),)
+        title: Text("$categoryName", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),)
       ),
       body: StreamBuilder(
-        stream: FirestoreServices.getProducts(title),
+        stream: FirestoreServices.getProducts(categoryName),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
           if(!snapshot.hasData){
             return const Center(
@@ -46,7 +44,7 @@ class CategoryItem extends StatelessWidget {
                 itemBuilder: (context,index) {
                   return InkWell(
                     onTap: (){
-                      Get.to(()=>ItemDetail(title: "${data[index]['p_name']}", data: data[index],));
+                      Get.to(()=>ItemDetail(productId: data[index],));
                     },
                     child: Container(
                       padding: const EdgeInsets.all(8.0),

@@ -53,11 +53,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               image: categoryImage[index],
               text: categoryName[index],
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CategoryItem(title: categoryName[index]),
-                  ),
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryItem(categoryName: categoryName[index]),),
                 );
               },
             ),

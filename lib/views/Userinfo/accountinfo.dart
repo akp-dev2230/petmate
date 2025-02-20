@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petmate/Services/firestore_services.dart';
+import 'package:petmate/controllers/profile_controller.dart';
+import 'package:petmate/views/Userinfo/wishlist_screen.dart';
 import 'package:petmate/views/authentication_screen/loginscreen.dart';
 
 class Accountinfo extends StatelessWidget {
@@ -11,11 +14,13 @@ class Accountinfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    var controller = Get.put(ProfileController());
+
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    final profileIcons = [Icons.account_balance, Icons.person, Icons.favorite_outline, Icons.home_filled, Icons.policy, Icons.help_outline];
-    final profileIconsTitle = ["Account setup", "Profile setting", "Wishlist", "Add Address", "Privacy policy", "Help and support",];
+    final profileIcons = [Icons.person, Icons.receipt_long, Icons.favorite_outline, Icons.home_work_rounded, Icons.policy, Icons.help_outline];
+    final profileIconsTitle = ["Profile", "My Orders", "Wishlist", "Manage Address", "Privacy policy", "Help and support",];
 
     return Scaffold(
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
@@ -42,11 +47,28 @@ class Accountinfo extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const CircleAvatar(
-                        radius: 70,
-                        backgroundImage: NetworkImage(
-                          "https://i.pravatar.cc/150", // Replace with actual image
-                        ),
+                      Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 70,
+                            backgroundImage: (data['profileImageUrl'] != null && data['profileImageUrl'].toString().isNotEmpty)
+                                ? NetworkImage(data['profileImageUrl'])
+                                : const AssetImage("assets/images/bansalbhand.jpg") as ImageProvider,
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: CircleAvatar(
+                              backgroundColor: CupertinoColors.systemGrey5,
+                              child: IconButton(
+                                icon: const Icon(CupertinoIcons.add, color: Colors.orangeAccent,),
+                                onPressed: (){
+                                  controller.pickAndUploadPhoto();
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(height: screenHeight*0.02),
                       Text("Name", style: Theme.of(context).textTheme.bodyLarge,
@@ -68,21 +90,35 @@ class Accountinfo extends StatelessWidget {
                         children: [
                           ListView.builder(
                             shrinkWrap: true,
-                            itemCount: 5,
+                            itemCount: profileIconsTitle.length,
                             itemBuilder: (context, index){
                               return ListTile(
-                                leading: Icon(profileIcons[index], color: Colors.teal,),
-                                title: Text(profileIconsTitle[index], style: TextStyle(fontSize: 18, color: Colors.black),),
+                                leading: Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.teal.shade50,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Icon(profileIcons[index], color: Colors.teal,),
+                                ),
+                                title: Text(profileIconsTitle[index], style: const TextStyle(fontSize: 18, color: Colors.black),),
                                 trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black,),
                                 onTap: (){
-
+                                  Get.to(const WishlistScreen());
                                 },
                               );
                             },
                           ),
                           const Divider(),
                           ListTile(
-                            leading: const Icon(Icons.logout, color: Colors.red,),
+                            leading: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                color: Colors.redAccent.withAlpha(25),
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: const Icon(Icons.logout, color: Colors.red,),
+                            ),
                             title: const Text(
                               "Log out",
                               style: TextStyle(color: Colors.red),

@@ -1,28 +1,30 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class AuthService {
+class AuthService extends GetxController{
 
-
+  var currentNavIndex = 0.obs;
   //login method
-  Future<UserCredential?> loginMethod({email, password, required BuildContext context}) async{
+  Future<UserCredential?> loginMethod({email, password}) async{
     UserCredential? userCredential;
     try{
       userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email, password: password);
     } on FirebaseAuthException catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      Get.snackbar("","",
+        titleText: const Text("Error", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+        messageText: Text("$e", style: const TextStyle(fontSize: 16, color: Colors.black),),
         backgroundColor: Colors.white,
-        content: Text("Error: $e", style: const TextStyle(fontSize: 16),),
-      ));
+      );
     }
     return userCredential;
   }
 
 
   //signup method
-  Future<UserCredential?> signupMethod({email, password, required BuildContext context}) async{
+  Future<UserCredential?> signupMethod({email, password}) async{
     UserCredential? userCredential;
     try {
       userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -33,17 +35,19 @@ class AuthService {
       User? user = userCredential.user;
       if (user != null && !user.emailVerified) {
         await user.sendEmailVerification().then((value){
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          Get.snackbar("","",
+            titleText: const Text("Verification email sent", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+            messageText: const Text("Please check your inbox.", style: TextStyle(fontSize: 16, color: Colors.black),),
             backgroundColor: Colors.white,
-            content: Text("Verification email sent. Please check your inbox.", style: TextStyle(fontSize: 16),),
-          ));
+          );
         }); // Send verification email
       }
     } on FirebaseAuthException catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      Get.snackbar("","",
+        titleText: const Text("Error", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+        messageText: Text("$e", style: const TextStyle(fontSize: 16, color: Colors.black),),
         backgroundColor: Colors.white,
-        content: Text("Error: $e", style: const TextStyle(fontSize: 16),),
-      ));
+      );
     }
     return userCredential;
   }
@@ -55,37 +59,41 @@ class AuthService {
       'email': email,
       'password': password,
       'id': FirebaseAuth.instance.currentUser!.uid,
+      'name': "",
+      'profileImageUrl': "",
     });
   }
 
 
   //logout method
-  Future<void> logoutMethod({required BuildContext context}) async{
+  Future<void> logoutMethod() async{
     try{
       await FirebaseAuth.instance.signOut().then((value){
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        Get.snackbar("","",
+          titleText: const Text("successfully logout", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
           backgroundColor: Colors.white,
-          content: Text("successfully logout", style: TextStyle(fontSize: 16),),
-        ));
+        );
       });
     }catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      Get.snackbar("","",
+        titleText: const Text("Error", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+        messageText: Text("$e", style: const TextStyle(fontSize: 16, color: Colors.black),),
         backgroundColor: Colors.white,
-        content: Text("Error: $e", style: const TextStyle(fontSize: 16),),
-      ));
+      );
     }
   }
 
 
   //reset password method
-  Future<void> sendPasswordResetLink({email,required BuildContext context}) async{
+  Future<void> sendPasswordResetLink({email}) async{
     try{
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
     }on FirebaseAuthException catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      Get.snackbar("","",
+        titleText: const Text("Error", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+        messageText: Text("$e", style: const TextStyle(fontSize: 16, color: Colors.black),),
         backgroundColor: Colors.white,
-        content: Text("Error: $e", style: const TextStyle(fontSize: 16),),
-      ));
+      );
     }
   }
 

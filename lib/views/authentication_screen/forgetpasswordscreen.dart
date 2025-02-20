@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:petmate/commonwidgets/commonbutton.dart';
 import 'package:petmate/commonwidgets/commontextfield.dart';
 import 'package:petmate/views/authentication_screen/auth_service.dart';
@@ -15,17 +16,17 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   final AuthService _authService = AuthService();
   TextEditingController emailController = TextEditingController();
 
-  void forgotPassword({required BuildContext context}) async{
+  void forgotPassword() async{
     try{
       await _authService.sendPasswordResetLink(
-        context: context,
         email: emailController.text
       );
     }catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      Get.snackbar("","",
+        titleText: const Text("Error", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+        messageText: Text("$e", style: const TextStyle(fontSize: 16, color: Colors.black),),
         backgroundColor: Colors.white,
-        content: Text("Error: $e", style: const TextStyle(fontSize: 16),),
-      ));
+      );
     }
   }
 
@@ -64,13 +65,13 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               buttonName: "Continue",
               onNavigate: (){
                 if(emailController.text.isNotEmpty){
-                  forgotPassword(context: context);
+                  forgotPassword();
                   Navigator.pop(context);
                 }else{
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  Get.snackbar("","",
+                    titleText: const Text("email can't be empty", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
                     backgroundColor: Colors.white,
-                    content: Text("email can't be empty", style: TextStyle(color: Colors.black, fontSize: 16),),
-                  ));
+                  );
                 }
               }
             ),

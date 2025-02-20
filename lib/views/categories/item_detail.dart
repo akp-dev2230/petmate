@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -7,13 +8,12 @@ import 'package:petmate/views/categories/cart_screen.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ItemDetail extends StatelessWidget {
-  final String? title;
-  final dynamic data;
-  const ItemDetail({super.key, required this.title, required this.data});
+  final dynamic productId;
+  const ItemDetail({super.key, required this.productId});
 
   @override
   Widget build(BuildContext context) {
-    
+
     var controller = Get.put(ProductController());
 
     String getWeekday(int weekday) {
@@ -32,56 +32,56 @@ class ItemDetail extends StatelessWidget {
 
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    
-    return PopScope(
-      onPopInvokedWithResult: (bool didPop, dynamic result){
-        if(didPop){
-          return;
-        }
-        controller.resetValues();
-      },
-      child: Scaffold(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        appBar: AppBar(
-          backgroundColor: Colors.greenAccent,
-          leading: IconButton(
-            onPressed: (){
-              Get.back();
-              controller.resetValues();
-            }, 
-            icon: const Icon(Icons.arrow_back, color: Colors.black,),
-          ),
-          actions: [
-            Obx(
-            ()=> IconButton(
-                onPressed: (){
-                  if(controller.isFav.value){
-                    controller.removeFromWishlist(data.id,context);
-                  }else{
-                    controller.addToWishlist(data.id,context);
-                  }
-                },
-                icon: controller.isFav.value
-                    ? const Icon(Icons.favorite_outlined, color: Colors.redAccent,)
-                    : const Icon(Icons.favorite_outline, color: Colors.black,),
-              ),
-            ),
-            IconButton(
-              onPressed: (){
-                Share.share("Check out this amazing");
-              },
-              icon: const Icon(Icons.share, color: Colors.black,),
-            ),
-          ],
-          title: Text(title!, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),),
+
+    dynamic wishlistRaw = productId['p_wishlist'];
+    wishlistRaw = wishlistRaw.where((item) {
+      return item is String && item.isNotEmpty;
+    }).toList();
+
+    controller.isFav.value = wishlistRaw.contains(FirebaseAuth.instance.currentUser!.uid);
+
+    return Scaffold(
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+      appBar: AppBar(
+        backgroundColor: Colors.greenAccent,
+        leading: IconButton(
+          onPressed: (){
+            Get.back();
+            controller.resetValues();
+          },
+          icon: const Icon(Icons.arrow_back, color: Colors.black,),
         ),
-        body: Stack(
+        actions: [
+          Obx(
+                ()=> IconButton(
+              onPressed: (){
+                if(controller.isFav.value){
+                  controller.removeFromWishlist(docId: productId.id, context: context);
+                }else{
+                  controller.addToWishlist(docId: productId.id, context: context);
+                }
+              },
+              icon: controller.isFav.value
+                  ? const Icon(Icons.favorite_outlined, color: Colors.redAccent,)
+                  : const Icon(Icons.favorite_outline, color: Colors.black,),
+            ),
+          ),
+          IconButton(
+            onPressed: (){
+              Share.share("Check out this amazing");
+            },
+            icon: const Icon(Icons.share, color: Colors.black,),
+          ),
+        ],
+        title: Text(productId['p_name'], style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),),
+      ),
+      body: Stack(
           children: [
             SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.network(data['p_image'],width: double.infinity,fit: BoxFit.cover,),
+                  Image.network(productId['p_image'],width: double.infinity,fit: BoxFit.cover,),
                   SizedBox(height: screenHeight*0.02,),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: screenWidth*0.02),
@@ -89,37 +89,37 @@ class ItemDetail extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          title!,
+                          productId['p_name'],
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).appBarTheme.foregroundColor,
                           ),
                         ),
-                        Text("${data['p_desc']}", style: Theme.of(context).textTheme.bodyMedium,),
+                        Text("${productId['p_desc']}", style: Theme.of(context).textTheme.bodyMedium,),
                         Row(
                           children: [
                             RatingBarIndicator(
-                              rating: double.parse(data['p_rating']),
+                              rating: double.parse(productId['p_rating']),
                               itemBuilder: (context, index){
                                 return const Icon(Icons.star, color: CupertinoColors.systemGreen,);
                               },
                               itemCount: 5,
                               itemSize: 20,
                             ),
-                            Text("(${data['p_rating']} rating)", style: Theme.of(context).textTheme.bodyMedium,)
+                            Text("(${productId['p_rating']} rating)", style: Theme.of(context).textTheme.bodyMedium,)
                           ],
                         ),
                         SizedBox(height: screenHeight*0.02,),
                         Text(
-                          "₹${data['p_price']}.00",
+                          "₹${productId['p_price']}.00",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).appBarTheme.foregroundColor,
                           ),
                         ),
-                        Text("Seller: ${data['p_seller']}", style: Theme.of(context).textTheme.bodyMedium,),
+                        Text("Seller: ${productId['p_seller']}", style: Theme.of(context).textTheme.bodyMedium,),
                         SizedBox(height: screenHeight*0.01,),
                         Divider(color: Theme.of(context).appBarTheme.foregroundColor,),
                         Row(
@@ -137,7 +137,7 @@ class ItemDetail extends StatelessWidget {
                               children: [
                                 IconButton(onPressed: (){
                                   controller.decreaseQuantity();
-                                  controller.calculateTotalPrice(int.parse(data['p_price']));
+                                  controller.calculateTotalPrice(price: int.parse(productId['p_price']));
                                 }, icon: const Icon(Icons.remove)),
                                 Text(
                                   "${controller.quantity.value}",
@@ -148,10 +148,10 @@ class ItemDetail extends StatelessWidget {
                                   ),
                                 ),
                                 IconButton(onPressed: (){
-                                  controller.increaseQuantity(int.parse(data['p_quantity']));
-                                  controller.calculateTotalPrice(int.parse(data['p_price']));
+                                  controller.increaseQuantity(int.parse(productId['p_quantity']));
+                                  controller.calculateTotalPrice(price: int.parse(productId['p_price']));
                                 }, icon: const Icon(Icons.add)),
-                                Text("${data['p_quantity']} available", style: Theme.of(context).textTheme.bodyMedium,),
+                                Text("${productId['p_quantity']} available", style: Theme.of(context).textTheme.bodyMedium,),
                               ],
                             ),
                             ),
@@ -190,7 +190,7 @@ class ItemDetail extends StatelessWidget {
                 height: screenHeight*0.07,
                 color: Theme.of(context).appBarTheme.backgroundColor,
                 child: Obx(
-                  ()=> Row(
+                      ()=> Row(
                     children: [
                       Expanded(
                         child: Container(
@@ -205,25 +205,28 @@ class ItemDetail extends StatelessWidget {
                         child: InkWell(
                           onTap: (){
                             if(controller.quantity.value>=1){
-                              Get.to(const CartScreen());
-                            }else{
-                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              Get.snackbar("","",
+                                titleText: const Text("Item added to cart", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
                                 backgroundColor: Colors.white,
-                                content: Text("Oops cart is empty!", textAlign: TextAlign.center, style: TextStyle(fontSize: 16),),
-                              ));
+                              );
+                            }else{
+                              Get.snackbar("","",
+                                titleText: const Text("Please select quantity", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+                                backgroundColor: Colors.white,
+                              );
                             }
                           },
                           child: Container(
                             width: double.infinity,
                             height: double.infinity,
                             color: Colors.greenAccent,
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("Add to Cart ", style: TextStyle(color: Colors.black)),
-                                  Icon(CupertinoIcons.cart_fill, color: Colors.black,)
-                                ],
-                              ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Add to Cart ", style: TextStyle(color: Colors.black)),
+                                Icon(CupertinoIcons.cart_fill, color: Colors.black,)
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -233,7 +236,6 @@ class ItemDetail extends StatelessWidget {
               ),
             ),
           ]
-        ),
       ),
     );
   }

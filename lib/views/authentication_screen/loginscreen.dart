@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:petmate/commonwidgets/commonbutton.dart';
 import 'package:petmate/commonwidgets/commontextfield.dart';
 import 'package:petmate/views/authentication_screen/auth_service.dart';
@@ -21,20 +22,24 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passController = TextEditingController();
   bool obsbool = true;
   
-  void login({required BuildContext context}) async{
+  void login() async{
     try{
       await _authService.loginMethod(
-        context: context,
         email: emailController.text,
         password: passController.text,
       ).then((value){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Landing()));
+        Get.off(const Landing());
+        Get.snackbar("","",
+          titleText: const Text("Login Successfully", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+          backgroundColor: Colors.white,
+        );
       });
     }catch(e){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      Get.snackbar("","",
+        titleText: const Text("Error", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+        messageText: Text("$e", style: const TextStyle(fontSize: 16, color: Colors.black),),
         backgroundColor: Colors.white,
-        content: Text("Error: $e", style: const TextStyle(fontSize: 16),),
-      ));
+      );
     }
   }
 
@@ -101,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: screenWidth*0.85,
                   height: MediaQuery.of(context).orientation == Orientation.portrait ? screenHeight*0.07 : screenHeight*0.15,
                   buttonName: "Login",
-                  onNavigate: ()=>login(context: context),
+                  onNavigate: ()=>login(),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

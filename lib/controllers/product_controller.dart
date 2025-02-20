@@ -21,7 +21,7 @@ class ProductController extends GetxController{
     }
   }
 
-  calculateTotalPrice(price){
+  calculateTotalPrice({price}){
     totalPrice.value = price * quantity.value;
   }
 
@@ -41,33 +41,34 @@ class ProductController extends GetxController{
       'tprice': tprice,
       'added_by': FirebaseAuth.instance.currentUser!.uid,
     }).catchError((error){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      Get.snackbar("","",
+        titleText: const Text("Error", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+        messageText: Text("$error", style: const TextStyle(fontSize: 16, color: Colors.black),),
         backgroundColor: Colors.white,
-        content: Text("Error: $error", style: const TextStyle(fontSize: 16),),
-      ));
+      );
     });
   }
 
-  addToWishlist(docId,context) async{
+  addToWishlist({docId, context}) async{
     await FirebaseFirestore.instance.collection("products").doc(docId).set({
       'p_wishlist': FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
     }, SetOptions(merge: true));
     isFav(true);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    Get.snackbar("","",
+      titleText: const Text("Added to wishlist", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
       backgroundColor: Colors.white,
-      content: Text("Added to wishlist", style: TextStyle(fontSize: 16),),
-    ));
+    );
   }
 
-  removeFromWishlist(docId,context) async{
+  removeFromWishlist({docId, context}) async{
     await FirebaseFirestore.instance.collection("products").doc(docId).set({
       'p_wishlist': FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
     }, SetOptions(merge: true));
     isFav(false);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    Get.snackbar("","",
+      titleText: const Text("Remove from wishlist", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
       backgroundColor: Colors.white,
-      content: Text("Remove from wishlist", style: TextStyle(fontSize: 16),),
-    ));
+    );
   }
 
 }
