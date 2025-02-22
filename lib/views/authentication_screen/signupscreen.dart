@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petmate/commonwidgets/commonbutton.dart';
 import 'package:petmate/commonwidgets/commontextfield.dart';
-import 'package:petmate/views/authentication_screen/auth_service.dart';
+import 'package:petmate/controllers/auth_controller.dart';
 import 'package:petmate/views/authentication_screen/loginscreen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -15,14 +15,14 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
 
-  final AuthService _authService = AuthService();
+  final AuthController authController = AuthController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
   bool obsbool = true;
 
   void signUp() async{
     try{
-      await _authService.signupMethod(
+      await authController.signupMethod(
         email: emailController.text,
         password: passController.text,
       ).then((value){

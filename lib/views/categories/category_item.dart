@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,39 +41,46 @@ class CategoryItem extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: data.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,mainAxisExtent: 250,mainAxisSpacing: 8,crossAxisSpacing: 8),
-                itemBuilder: (context,index) {
-                  return InkWell(
-                    onTap: (){
-                      Get.to(()=>ItemDetail(productId: data[index],));
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [BoxShadow(
-                          color: Colors.grey.withValues(alpha: 0.3), // Shadow color with opacity
-                          spreadRadius: 2,  // How much the shadow spreads
-                          blurRadius: 5,     // How soft the shadow appears
-                          offset: const Offset(3, 3), // Changes position of shadow (x, y)
-                        )],
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image.network(data[index]['p_image'],width: 200,height: 150,fit: BoxFit.cover,),
-                          const Divider(),
-                          Text(
-                            data[index]['p_name'].length > 15
-                                ? "${data[index]['p_name'].substring(0,15)}..."
-                                : "${data[index]['p_name']}",
-                            style: const TextStyle(color: Colors.black, fontSize: 16,),
-                          ),
-                          const SizedBox(height: 10,),
-                          Text("₹${data[index]['p_price']}.00", style: const TextStyle(color: Colors.black, fontSize: 16,)),
-                          const SizedBox(height: 10,),
-                        ],
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                  mainAxisExtent: 250,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return FadeInUp(
+                    delay: Duration(milliseconds: 10*index),
+                    child: InkWell(
+                      onTap: (){
+                        Get.to(()=>ItemDetail(productId: data[index],));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [BoxShadow(
+                            color: Colors.grey.withValues(alpha: 0.3), // Shadow color with opacity
+                            spreadRadius: 2,  // How much the shadow spreads
+                            blurRadius: 5,     // How soft the shadow appears
+                            offset: const Offset(3, 3), // Changes position of shadow (x, y)
+                          )],
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.network(data[index]['p_image'],width: 200,height: 150,fit: BoxFit.cover,),
+                            const Divider(),
+                            Text(
+                              data[index]['p_name'].length > 15
+                                  ? "${data[index]['p_name'].substring(0,15)}..."
+                                  : "${data[index]['p_name']}",
+                              style: const TextStyle(color: Colors.black, fontSize: 16,),
+                            ),
+                            const SizedBox(height: 10,),
+                            Text("₹${data[index]['p_price']}.00", style: const TextStyle(color: Colors.black, fontSize: 16,)),
+                            const SizedBox(height: 10,),
+                          ],
+                        ),
                       ),
                     ),
                   );

@@ -30,7 +30,7 @@ class ProductController extends GetxController{
     quantity.value = 0;
   }
 
-  addToCart({title, img, sellername, color, qty, tprice, context}) async{
+  addToCart({title, img, sellername, color, qty, tprice}) async{
     await FirebaseFirestore.instance.collection("cartCollection").doc().set({
       'title': title,
       'img': img,
@@ -49,7 +49,7 @@ class ProductController extends GetxController{
     });
   }
 
-  addToWishlist({docId, context}) async{
+  addToWishlist({docId}) async{
     await FirebaseFirestore.instance.collection("products").doc(docId).set({
       'p_wishlist': FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
     }, SetOptions(merge: true));
@@ -60,7 +60,7 @@ class ProductController extends GetxController{
     );
   }
 
-  removeFromWishlist({docId, context}) async{
+  removeFromWishlist({docId}) async{
     await FirebaseFirestore.instance.collection("products").doc(docId).set({
       'p_wishlist': FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
     }, SetOptions(merge: true));

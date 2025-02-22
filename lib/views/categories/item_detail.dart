@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:petmate/controllers/product_controller.dart';
-import 'package:petmate/views/categories/cart_screen.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ItemDetail extends StatelessWidget {
@@ -56,9 +55,9 @@ class ItemDetail extends StatelessWidget {
                 ()=> IconButton(
               onPressed: (){
                 if(controller.isFav.value){
-                  controller.removeFromWishlist(docId: productId.id, context: context);
+                  controller.removeFromWishlist(docId: productId.id);
                 }else{
-                  controller.addToWishlist(docId: productId.id, context: context);
+                  controller.addToWishlist(docId: productId.id);
                 }
               },
               icon: controller.isFav.value

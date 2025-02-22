@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:petmate/views/Cart/cart.dart';
 import 'package:petmate/views/Clinic/clinic.dart';
 import 'package:petmate/views/Userinfo/accountinfo.dart';
-import 'package:petmate/views/authentication_screen/auth_service.dart';
 import 'package:petmate/views/authentication_screen/loginscreen.dart';
 import 'package:petmate/views/categories/category_screen.dart';
 import 'package:petmate/views/landing_screen/home_screen.dart';
@@ -17,7 +16,6 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
-  var controller = Get.put(AuthService()); // Keeps track of the selected tab
 
   // List of Screens for Bottom Navigation
   final List<Widget> _pages = [
@@ -43,30 +41,33 @@ class _LandingState extends State<Landing> {
 
   @override
   Widget build(BuildContext context) {
+
+    var currentNavIndex = 0.obs;
+
     return Scaffold(
       body: Column(
         children: [
-          Obx(()=> Expanded(child: _pages.elementAt(controller.currentNavIndex.value)))
+          Obx(()=> Expanded(child: _pages.elementAt(currentNavIndex.value)))
         ],
       ), // Display selected page
       bottomNavigationBar: Obx( ()=>
-        BottomNavigationBar(
-          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.green,
-          unselectedItemColor: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black54,
-          currentIndex: controller.currentNavIndex.value,
-          onTap: (index){
-            controller.currentNavIndex.value = index;
-          },
-          items: const[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.category), label: "Categories"),
-            BottomNavigationBarItem(icon: Icon(Icons.add_rounded), label: "Clinic"),
-            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
-          ],
-        ),
+          BottomNavigationBar(
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: Colors.green,
+            unselectedItemColor: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black54,
+            currentIndex: currentNavIndex.value,
+            onTap: (index){
+              currentNavIndex.value = index;
+            },
+            items: const[
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+              BottomNavigationBarItem(icon: Icon(Icons.category), label: "Categories"),
+              BottomNavigationBarItem(icon: Icon(Icons.add_rounded), label: "Clinic"),
+              BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
+              BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
+            ],
+          ),
       ),
     );
   }

@@ -1,5 +1,5 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petmate/Services/firestore_services.dart';
@@ -19,7 +19,14 @@ class WishlistScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.greenAccent,
+        leading: IconButton(
+          onPressed: (){
+            Get.back();
+          },
+          icon: const Icon(Icons.arrow_back, color: Colors.black,),
+        ),
       ),
       body: StreamBuilder(
         stream: FirestoreServices.getWishlists(),
@@ -45,24 +52,31 @@ class WishlistScreen extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     itemCount: data.length,
                     itemBuilder: (BuildContext context, int index){
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth*0.02, vertical: screenHeight*0.005),
-                        child: ListTile(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          tileColor: Colors.white,
-                          leading: Image.network("${data[index]['p_image']}",width: 80, fit: BoxFit.cover,),
-                          title: Text(data[index]['p_name'].length > 15
-                              ? "${data[index]['p_name'].substring(0,15)}..."
-                              : "${data[index]['p_name']}",
-                            style: const TextStyle(fontSize: 16, color: Colors.black),
+                      return FadeInUp(
+                        delay: Duration(milliseconds: 10*index),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: screenWidth*0.02, vertical: screenHeight*0.005),
+                          child: Card(
+                            elevation: 2.0,
+                            shadowColor: Colors.grey,
+                            child: ListTile(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              tileColor: Colors.white,
+                              leading: Image.network("${data[index]['p_image']}",width: 80, fit: BoxFit.cover,),
+                              title: Text(data[index]['p_name'].length > 15
+                                  ? "${data[index]['p_name'].substring(0,15)}..."
+                                  : "${data[index]['p_name']}",
+                                style: const TextStyle(fontSize: 16, color: Colors.black),
+                              ),
+                              subtitle: Text("₹${data[index]['p_price']}.00", style: Theme.of(context).textTheme.bodyMedium,),
+                              trailing: IconButton(
+                                onPressed: (){
+                                  controller.removeFromWishlist(docId: data[index].id);
+                                },
+                                icon: const Icon(Icons.favorite,color: Colors.redAccent,),
+                              )
+                            ),
                           ),
-                          subtitle: Text("${data[index]['p_price']}"),
-                          trailing: IconButton(
-                            onPressed: (){
-                              controller.removeFromWishlist(docId: FirebaseAuth.instance.currentUser!.uid, context: context);
-                            },
-                            icon: const Icon(Icons.favorite,color: Colors.redAccent,),
-                          )
                         ),
                       );
                     },

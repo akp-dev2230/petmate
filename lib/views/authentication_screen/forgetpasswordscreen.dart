@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petmate/commonwidgets/commonbutton.dart';
 import 'package:petmate/commonwidgets/commontextfield.dart';
-import 'package:petmate/views/authentication_screen/auth_service.dart';
+import 'package:petmate/controllers/auth_controller.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -13,12 +13,12 @@ class ForgetPasswordScreen extends StatefulWidget {
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
-  final AuthService _authService = AuthService();
+  final AuthController authController = AuthController();
   TextEditingController emailController = TextEditingController();
 
   void forgotPassword() async{
     try{
-      await _authService.sendPasswordResetLink(
+      await authController.sendPasswordResetLink(
         email: emailController.text
       );
     }catch(e){

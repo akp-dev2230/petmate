@@ -61,7 +61,7 @@ class Accountinfo extends StatelessWidget {
                             child: CircleAvatar(
                               backgroundColor: CupertinoColors.systemGrey5,
                               child: IconButton(
-                                icon: const Icon(CupertinoIcons.add, color: Colors.orangeAccent,),
+                                icon: const Icon(Icons.photo_library, color: Colors.orangeAccent,),
                                 onPressed: (){
                                   controller.pickAndUploadPhoto();
                                 },
@@ -71,9 +71,9 @@ class Accountinfo extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: screenHeight*0.02),
-                      Text("Name", style: Theme.of(context).textTheme.bodyLarge,
+                      Text((data['name'] ?? "").isEmpty ? "Name" :"${data['name']}", style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Text("${data['email']}", style: const TextStyle(color: Colors.grey),
+                      Text("${data['email']}", style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
                   ),
@@ -82,6 +82,7 @@ class Accountinfo extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: screenWidth*0.05),
                     child: Card(
+                      elevation: 2.0,
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),

@@ -3,9 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AuthService extends GetxController{
+class AuthController extends GetxController{
 
-  var currentNavIndex = 0.obs;
   //login method
   Future<UserCredential?> loginMethod({email, password}) async{
     UserCredential? userCredential;

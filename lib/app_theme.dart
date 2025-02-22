@@ -16,7 +16,7 @@ class AppTheme {
       useMaterial3: true,
       textTheme: TextTheme(
         bodyLarge: TextStyle(fontSize: fontSize, color: Colors.black),
-        bodyMedium: const TextStyle(fontSize: 16, color: Colors.black87)
+        bodyMedium: const TextStyle(fontSize: 16, color: Colors.black54)
       ),
     );
   }
@@ -35,7 +35,7 @@ class AppTheme {
       useMaterial3: true,
       textTheme: TextTheme(
         bodyLarge: TextStyle(fontSize: fontSize, color: Colors.white),
-        bodyMedium: const TextStyle(fontSize: 16, color: CupertinoColors.systemGrey4),
+        bodyMedium: const TextStyle(fontSize: 16, color: CupertinoColors.systemGrey),
       ),
     );
   }
