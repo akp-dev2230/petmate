@@ -10,149 +10,153 @@ class Clinic extends StatefulWidget {
 class _ClinicState extends State<Clinic> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth  = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pet Care Clinic'),
-        backgroundColor: Colors.white,
+        title: const Text('Pet Care Clinic'),
+        backgroundColor: Colors.greenAccent,
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Your partner in pet care, all the way',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'From expert clinical care to holistic grooming',
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const Text(
+                'Meet Our Fear-Free Certified Team',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
-            ),
-            _buildFeatureGrid(),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Text(
-                    'Meet Our Fear-Free Certified Team',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
+              SizedBox(height: screenHeight * 0.02),
+              Container(
+                width: double.infinity,
+                height: screenHeight * 0.4, // Set a fixed, reasonable height
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      _buildDoctorCard(
+                        'Dr. Swathi Hareendran',
+                        'Mom to Mashu, a rescue indie cat\n10 years of experience\nGeneral physician & soft tissue surgeon',
+                        'assets/images/bansalbhand.jpg',
+                      ),
+                      SizedBox(width: screenWidth * 0.02),
+                      _buildDoctorCard(
+                        'Dr. Remya Nair',
+                        'Mom to Aashu\n4 years of experience\nGeneral physician',
+                        'assets/images/bansalbhand.jpg',
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Trained to reduce your pet’s anxiety!',
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 16),
-                  _buildDoctorCard(
-                    'Dr. Swathi Hareendran',
-                    'Mom to Mashu, a rescue indie cat\n10 years of experience\nGeneral physician & soft tissue surgeon',
-                    'assets/doctor1.png',
-                  ),
-                  SizedBox(height: 16),
-                  _buildDoctorCard(
-                    'Dr. Remya Nair',
-                    'Mom to Aashu\n4 years of experience\nGeneral physician',
-                    'assets/doctor2.png',
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
-  Widget _buildFeatureGrid() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: GridView.count(
-        crossAxisCount: 2,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          _buildFeatureTile('Fear-Free™ Care', 'Certified vets & groomers, pet-friendly interiors', Icons.pets),
-          _buildFeatureTile('Digital Records', 'Access your pet’s medical history anytime', Icons.description),
-          _buildFeatureTile('Global Standards', 'International-quality care tailored for your pet', Icons.public),
-          _buildFeatureTile('Holistic Grooming', 'Professional grooming services', Icons.spa),
-        ],
-      ),
-    );
-  }
+              const Text(
+                'Your pets new safe space',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: screenHeight * 0.02),
+              const Text(
+                'Experience Fear-Free veterinary care',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: screenHeight * 0.02),
+              Container(
+                width: double.infinity,
+                height: screenHeight * 0.4, // Set a fixed, reasonable height
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      _buildDoctorCard(
+                        'Dr. Swathi Hareendran',
+                        'Mom to Mashu, a rescue indie cat\n10 years of experience\nGeneral physician & soft tissue surgeon',
+                        'assets/images/bansalbhand.jpg',
+                      ),
+                      SizedBox(width: screenWidth * 0.02),
+                      _buildDoctorCard(
+                        'Dr. Remya Nair',
+                        'Mom to Aashu\n4 years of experience\nGeneral physician',
+                        'assets/images/bansalbhand.jpg',
+                      ),
+                    ],
+                  ),
+                ),
+              ),
 
-  Widget _buildFeatureTile(String title, String description, IconData icon) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 40, color: Colors.purple),
-            SizedBox(height: 10),
-            Text(
-              title,
-              style: TextStyle(fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 5),
-            Text(
-              description,
-              style: TextStyle(fontSize: 12),
-              textAlign: TextAlign.center,
-            ),
-          ],
+              SizedBox(height: screenHeight*0.02),
+              Container(
+                  width: double.infinity,
+                  height: screenHeight * 0.4,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        veterinarycareCard("Vacciination Plans", context),
+                        SizedBox(width: screenWidth * 0.02),
+                        veterinarycareCard("Vacciination Plans", context),
+                        SizedBox(width: screenWidth * 0.02),
+                        veterinarycareCard("Vacciination Plans", context)
+                      ],
+                    ),
+                  )
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildDoctorCard(String name, String details, String imagePath) {
+    final screenWidth  = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12)
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
+        padding: EdgeInsets.symmetric(
+          horizontal: screenWidth * 0.08,
+          vertical: screenHeight * 0.03,
+        ),
+        child: Column(
           children: [
             CircleAvatar(
               radius: 40,
               backgroundImage: AssetImage(imagePath),
             ),
-            SizedBox(width: 16),
-            Expanded(
+            SizedBox(height: screenHeight*0.01,),
+            // Remove Expanded if causing layout issues in a horizontally unbounded context
+            Container(
+              width: screenWidth * 0.5,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8),
                   Text(
                     details,
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ],
               ),
@@ -163,3 +167,59 @@ class _ClinicState extends State<Clinic> {
     );
   }
 }
+
+Widget veterinarycareCard(String name,context ) {
+
+  final screenWidth  = MediaQuery.of(context).size.width;
+  final screenHeight = MediaQuery.of(context).size.height;
+
+  return Container(
+    width: screenWidth*0.5,
+    // Outer container for rounded corners and drop shadow
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Top image with clipped corners
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
+            child: Image.asset(
+              'assets/images/bansalbhand.jpg', // Replace with your actual image path
+              fit: BoxFit.cover,
+              height: screenHeight*0.3, // Adjust height as desired
+            ),
+          ),
+          // Content below the image
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: screenWidth*0.03, vertical: screenHeight*0.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Title
+                Text(
+                  name,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+  );
+}
+
