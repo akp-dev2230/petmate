@@ -82,164 +82,170 @@ class Cart extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: screenHeight*0.01,),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth*0.03, vertical: screenHeight*0.015),
+                    child: Column(
+                      children: [
+                        //item section
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
 
-                  //item section
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
+                            final productDoc = data[index].id;
+                            final quantity = data[index]['qty'];
 
-                      final productDoc = data[index].id;
-                      final quantity = data[index]['qty'];
+                            return FutureBuilder<DocumentSnapshot>(
+                              future: FirebaseFirestore.instance.collection('products').doc(productDoc).get(),
+                              builder: (context, productSnapshot){
+                                if(!productSnapshot.hasData){
+                                  return Container();
+                                }
 
-                      return FutureBuilder<DocumentSnapshot>(
-                        future: FirebaseFirestore.instance.collection('products').doc(productDoc).get(),
-                        builder: (context, productSnapshot){
-                          if(!productSnapshot.hasData){
-                            return Container();
-                          }
+                                final productData = productSnapshot.data!.data() as Map<String, dynamic>;
+                                final productPrice = productData['p_price'];
+                                WidgetsBinding.instance.addPostFrameCallback((_) {
+                                  totalMRP.value += ((productPrice) * quantity) as int;
+                                });
 
-                          final productData = productSnapshot.data!.data() as Map<String, dynamic>;
-                          final productPrice = productData['p_price'];
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            totalMRP.value += ((productPrice) * quantity) as int;
-                          });
-
-                          return Container(
-                            margin: EdgeInsets.only(left: screenWidth*0.03, right: screenWidth*0.03, bottom: screenHeight*0.015),
-                            decoration: BoxDecoration(
-                              color: CupertinoColors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: screenWidth*0.02, vertical: screenHeight*0.02),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Image.network(productData['p_image'], height: screenHeight*0.15, width: screenWidth*0.25, fit: BoxFit.contain),
-                                      SizedBox(width: screenWidth*0.02),
-                                      Expanded(
+                                return Column(
+                                  children: [
+                                    Card(
+                                      elevation: 1.0,
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: screenWidth*0.02, vertical: screenHeight*0.02),
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text(productData['p_name'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black)),
-                                            SizedBox(height: screenHeight*0.005),
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text("MRP - ${productPrice.toStringAsFixed(2)}", style: const TextStyle(fontSize: 16, color: Colors.black87)),
-                                                GestureDetector(
-                                                  onTap: (){
-                                                    cartController.showQuantityBottomSheet(
-                                                      context: context,
-                                                      productDoc: productDoc,
-                                                      currentQuantity: quantity,
-                                                    );
-                                                  },
-                                                  child: Row(
+                                                Image.network(productData['p_image'], height: screenHeight*0.15, width: screenWidth*0.25, fit: BoxFit.contain),
+                                                SizedBox(width: screenWidth*0.02),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Text("Qty - $quantity", style: const TextStyle(fontSize: 16, color: Colors.black87)),
-                                                      const Icon(Icons.arrow_drop_down, color: Colors.black87,)
+                                                      Text(productData['p_name'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black)),
+                                                      SizedBox(height: screenHeight*0.005),
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Text("MRP - ${productPrice.toStringAsFixed(2)}", style: const TextStyle(fontSize: 16, color: Colors.black87)),
+                                                          GestureDetector(
+                                                            onTap: (){
+                                                              cartController.showQuantityBottomSheet(
+                                                                context: context,
+                                                                productDoc: productDoc,
+                                                                currentQuantity: quantity,
+                                                              );
+                                                            },
+                                                            child: Row(
+                                                              children: [
+                                                                Text("Qty - $quantity", style: const TextStyle(fontSize: 16, color: Colors.black87)),
+                                                                const Icon(Icons.arrow_drop_down, color: Colors.black87,)
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Text(
+                                                        "₹${(productPrice * quantity).toStringAsFixed(2)}",
+                                                        style: const TextStyle(fontSize: 18, color: Colors.black),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
+                                                InkWell(
+                                                  onTap: (){
+                                                    cartController.removeToCart(productDoc: productDoc);
+                                                  },
+                                                  child: const Icon(Icons.delete_outline, color: Colors.redAccent,),
+                                                ),
+
                                               ],
                                             ),
-                                            Text(
-                                              "₹${(productPrice * quantity).toStringAsFixed(2)}",
-                                              style: const TextStyle(fontSize: 18, color: Colors.black),
+                                            const Divider(),
+                                            Row(
+                                              children: [
+                                                const Icon(Icons.local_shipping_outlined, color: Color(0xFF1E2433)),
+                                                const Text(" Delivery by ", style: TextStyle(fontSize: 16, color: Colors.black)),
+                                                Text(formattedDate, style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold)),
+                                              ],
                                             ),
                                           ],
                                         ),
                                       ),
-                                      InkWell(
-                                        onTap: (){
-                                          cartController.removeToCart(productDoc: productDoc);
-                                        },
-                                        child: const Icon(Icons.delete_outline, color: Colors.redAccent,),
-                                      ),
+                                    ),
+                                    SizedBox(height: screenHeight*0.01,),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        ),
+                        SizedBox(height: screenHeight*0.02,),
 
-                                    ],
-                                  ),
-                                  const Divider(),
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.local_shipping_outlined, color: Color(0xFF1E2433)),
-                                      const Text(" Delivery by ", style: TextStyle(fontSize: 16, color: Colors.black)),
-                                      Text(formattedDate, style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                        //billing section
+                        Obx( () {
+                          discount.value = (totalMRP.value * 0.1).toInt();
+                          totalAmount.value = (totalMRP.value - discount.value + 99).toInt();
+                          return Container(
+                            padding: EdgeInsets.symmetric(horizontal: screenWidth*0.03, vertical: screenHeight*0.015),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [BoxShadow(color: Colors.grey.shade300, blurRadius: 4, spreadRadius: 1)],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text("Price Details", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black)),
+                                const Divider(),
+                                _priceDetailRow(title: "Total MRP", value: "₹${(totalMRP.value).toDouble().toStringAsFixed(2)}"),
+                                _priceDetailRow(
+                                  title: "Discount on MRP",
+                                  value: "- ₹${(discount.value).toDouble().toStringAsFixed(2)}",
+                                  color: Colors.green,
+                                ),
+                                _priceDetailRow(title: "Coupon Discount", value: "- ₹0.00"),
+                                _priceDetailRow(title: "Delivery Fee", value: "₹99.00", color: Colors.green),
+                                const Divider(),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text("Total Amount",
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black)
+                                    ),
+                                    Text(
+                                      (totalAmount.value).toDouble().toStringAsFixed(2),
+                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           );
-                        },
-                      );
-                    },
-                  ),
+                        }),
+                        SizedBox(height: screenHeight*0.02,),
 
-                  //billing section
-                  Obx( () {
-                    discount.value = (totalMRP.value * 0.1).toInt();
-                    totalAmount.value = (totalMRP.value - discount.value + 99).toInt();
-                    return Container(
-                      margin: EdgeInsets.symmetric(horizontal: screenWidth*0.03, vertical: screenHeight*0.015),
-                      padding: EdgeInsets.symmetric(horizontal: screenWidth*0.03, vertical: screenHeight*0.015),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [BoxShadow(color: Colors.grey.shade300, blurRadius: 4, spreadRadius: 1)],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text("Price Details", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black)),
-                          const Divider(),
-                          _priceDetailRow(title: "Total MRP", value: "₹${(totalMRP.value).toDouble().toStringAsFixed(2)}"),
-                          _priceDetailRow(
-                            title: "Discount on MRP",
-                            value: "- ₹${(discount.value).toDouble().toStringAsFixed(2)}",
-                            color: Colors.green,
+                        //proceed to buy button
+                        SizedBox(
+                          width: double.infinity,
+                          height: screenHeight*0.06,
+                          child: ElevatedButton(
+                            onPressed: (){},
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.greenAccent,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
+                            ),
+                            child: const Text("Proceed to Buy", style: TextStyle(fontSize: 18, color: Colors.black),),
                           ),
-                          _priceDetailRow(title: "Coupon Discount", value: "- ₹0.00"),
-                          _priceDetailRow(title: "Delivery Fee", value: "₹99.00", color: Colors.green),
-                          const Divider(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Total Amount",
-                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black)
-                              ),
-                              Text(
-                                (totalAmount.value).toDouble().toStringAsFixed(2),
-                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
-
-                  //proceed to buy button
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth*0.03, vertical: screenHeight*0.015),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: screenHeight*0.06,
-                      child: ElevatedButton(
-                        onPressed: (){},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.greenAccent,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
                         ),
-                        child: const Text("Proceed to Buy", style: TextStyle(fontSize: 18, color: Colors.black),),
-                      ),
+                      ],
                     ),
                   ),
 
