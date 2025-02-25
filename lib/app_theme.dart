@@ -11,13 +11,15 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        elevation: 2.0,
       ),
       useMaterial3: true,
       textTheme: TextTheme(
         bodyLarge: TextStyle(fontSize: fontSize, color: Colors.black),
         bodyMedium: const TextStyle(fontSize: 16, color: Colors.black54)
       ),
+      navigationBarTheme: const NavigationBarThemeData(
+        backgroundColor: CupertinoColors.systemGrey6,
+      )
     );
   }
 
@@ -30,13 +32,15 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         backgroundColor: Color(0xFF1E2433),
         foregroundColor: Colors.white,
-        elevation: 2.0,
       ),
       useMaterial3: true,
       textTheme: TextTheme(
         bodyLarge: TextStyle(fontSize: fontSize, color: Colors.white),
         bodyMedium: const TextStyle(fontSize: 16, color: CupertinoColors.systemGrey),
       ),
+      navigationBarTheme: const NavigationBarThemeData(
+        backgroundColor: Color(0xFF2b2f3d),
+      )
     );
   }
 }

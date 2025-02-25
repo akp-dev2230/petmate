@@ -30,25 +30,6 @@ class ProductController extends GetxController{
     quantity.value = 0;
   }
 
-  addToCart({title, img, sellername, color, qty, tprice}) async{
-    await FirebaseFirestore.instance.collection("cartCollection").doc().set({
-      'title': title,
-      'img': img,
-      'sellername': sellername,
-      'color': color,
-      'qty': qty,
-      // 'vendor_id': vendorID,
-      'tprice': tprice,
-      'added_by': FirebaseAuth.instance.currentUser!.uid,
-    }).catchError((error){
-      Get.snackbar("","",
-        titleText: const Text("Error", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
-        messageText: Text("$error", style: const TextStyle(fontSize: 16, color: Colors.black),),
-        backgroundColor: Colors.white,
-      );
-    });
-  }
-
   addToWishlist({docId}) async{
     await FirebaseFirestore.instance.collection("products").doc(docId).set({
       'p_wishlist': FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
@@ -70,5 +51,44 @@ class ProductController extends GetxController{
       backgroundColor: Colors.white,
     );
   }
+
+
+  Future<void> addToCart({productId, quantity}) async{
+    try{
+      final String docId = productId.id;
+      final addToCartDocument = FirebaseFirestore.instance.collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid).collection('cart').doc(docId);
+      final addToCartSnapshot = await addToCartDocument.get();
+      int qty = 0;
+
+      if(addToCartSnapshot.exists){
+        qty = addToCartSnapshot.data()?['qty'];
+      }
+
+      if(qty + quantity <= 10){
+        await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('cart').doc(docId).set({
+          'qty': FieldValue.increment(quantity),
+        }, SetOptions(merge: true));
+        resetValues();
+        Get.snackbar("","",
+          titleText: const Text("Item added to cart", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+          backgroundColor: Colors.white,
+        );
+      }else{
+        Get.snackbar("","",
+          titleText: const Text("Only 10 unit(s) of this item can be added per order", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+          backgroundColor: Colors.white,
+        );
+      }
+    }catch(e){
+      Get.snackbar("","",
+        titleText: const Text("Error", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+        messageText: Text("$e", style: const TextStyle(fontSize: 16, color: Colors.black),),
+        backgroundColor: Colors.white,
+      );
+    }
+  }
+
 
 }

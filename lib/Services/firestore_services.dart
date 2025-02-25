@@ -19,4 +19,8 @@ class FirestoreServices{
     return FirebaseFirestore.instance.collection("products").where('p_wishlist', arrayContains: FirebaseAuth.instance.currentUser!.uid).snapshots();
   }
 
+  static getAddToCartItems(){
+    return FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('cart').snapshots();
+  }
+
 }

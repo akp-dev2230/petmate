@@ -52,10 +52,10 @@ class _LandingState extends State<Landing> {
       ), // Display selected page
       bottomNavigationBar: Obx( ()=>
           BottomNavigationBar(
-            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+            backgroundColor: Theme.of(context).navigationBarTheme.backgroundColor,
             type: BottomNavigationBarType.fixed,
             selectedItemColor: Colors.green,
-            unselectedItemColor: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black54,
+            unselectedItemColor: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black87,
             currentIndex: currentNavIndex.value,
             onTap: (index){
               currentNavIndex.value = index;

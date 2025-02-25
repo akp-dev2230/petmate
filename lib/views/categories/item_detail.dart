@@ -99,7 +99,7 @@ class ItemDetail extends StatelessWidget {
                         Row(
                           children: [
                             RatingBarIndicator(
-                              rating: double.parse(productId['p_rating']),
+                              rating: double.parse(productId['p_rating'].toString()),
                               itemBuilder: (context, index){
                                 return const Icon(Icons.star, color: CupertinoColors.systemGreen,);
                               },
@@ -111,7 +111,7 @@ class ItemDetail extends StatelessWidget {
                         ),
                         SizedBox(height: screenHeight*0.02,),
                         Text(
-                          "₹${productId['p_price']}.00",
+                          "₹${productId['p_price'].toStringAsFixed(2)}",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -136,7 +136,7 @@ class ItemDetail extends StatelessWidget {
                               children: [
                                 IconButton(onPressed: (){
                                   controller.decreaseQuantity();
-                                  controller.calculateTotalPrice(price: int.parse(productId['p_price']));
+                                  controller.calculateTotalPrice(price: productId['p_price']);
                                 }, icon: const Icon(Icons.remove)),
                                 Text(
                                   "${controller.quantity.value}",
@@ -147,8 +147,8 @@ class ItemDetail extends StatelessWidget {
                                   ),
                                 ),
                                 IconButton(onPressed: (){
-                                  controller.increaseQuantity(int.parse(productId['p_quantity']));
-                                  controller.calculateTotalPrice(price: int.parse(productId['p_price']));
+                                  controller.increaseQuantity(productId['p_quantity']);
+                                  controller.calculateTotalPrice(price: productId['p_price']);
                                 }, icon: const Icon(Icons.add)),
                                 Text("${productId['p_quantity']} available", style: Theme.of(context).textTheme.bodyMedium,),
                               ],
@@ -196,18 +196,19 @@ class ItemDetail extends StatelessWidget {
                           width: double.infinity,
                           height: double.infinity,
                           color: CupertinoColors.systemGrey6,
-                          child: Center(child: Text("₹${controller.totalPrice.value}.00", style: const TextStyle(color: Colors.black),)),
+                          child: Center(child: Text("₹${(controller.totalPrice.value).toStringAsFixed(2)}", style: const TextStyle(color: Colors.black),)),
                         ),
                       ),
-                      // Divider(color: Colors.black,),
                       Expanded(
                         child: InkWell(
-                          onTap: (){
+                          onTap: () async{
                             if(controller.quantity.value>=1){
-                              Get.snackbar("","",
-                                titleText: const Text("Item added to cart", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
-                                backgroundColor: Colors.white,
-                              );
+                              await controller.addToCart(
+                                productId: productId,
+                                quantity: controller.quantity.value,
+                              ).then((value){
+
+                              });
                             }else{
                               Get.snackbar("","",
                                 titleText: const Text("Please select quantity", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),

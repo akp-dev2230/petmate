@@ -77,7 +77,7 @@ class CategoryItem extends StatelessWidget {
                               style: const TextStyle(color: Colors.black, fontSize: 16,),
                             ),
                             const SizedBox(height: 10,),
-                            Text("₹${data[index]['p_price']}.00", style: const TextStyle(color: Colors.black, fontSize: 16,)),
+                            Text("₹${data[index]['p_price'].toStringAsFixed(2)}", style: const TextStyle(color: Colors.black, fontSize: 16,)),
                             const SizedBox(height: 10,),
                           ],
                         ),
