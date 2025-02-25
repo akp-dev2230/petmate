@@ -17,6 +17,20 @@ class Cart extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
+    String getWeekday(int weekday) {
+      const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      return weekdays[weekday - 1];
+    }
+    String getMonth(int month) {
+      const months = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      ];
+      return months[month - 1];
+    }
+    DateTime date = DateTime.now().add(const Duration(days: 2));
+    String formattedDate = "${getWeekday(date.weekday)}, ${date.day} ${getMonth(date.month)}";
+
     final totalMRP = 0.obs;
     final discount = 0.obs;
     final totalAmount = 0.obs;
@@ -68,102 +82,105 @@ class Cart extends StatelessWidget {
                       ],
                     ),
                   ),
+                  SizedBox(height: screenHeight*0.01,),
 
                   //item section
-                  SizedBox(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
 
-                        final productDoc = data[index].id;
-                        final quantity = data[index]['qty'];
+                      final productDoc = data[index].id;
+                      final quantity = data[index]['qty'];
 
-                        return FutureBuilder<DocumentSnapshot>(
-                          future: FirebaseFirestore.instance.collection('products').doc(productDoc).get(),
-                          builder: (context, productSnapshot){
-                            if(!productSnapshot.hasData){
-                              return const Center(
-                                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.greenAccent),),
-                              );
-                            }
+                      return FutureBuilder<DocumentSnapshot>(
+                        future: FirebaseFirestore.instance.collection('products').doc(productDoc).get(),
+                        builder: (context, productSnapshot){
+                          if(!productSnapshot.hasData){
+                            return Container();
+                          }
 
-                            final productData = productSnapshot.data!.data() as Map<String, dynamic>;
-                            final productPrice = productData['p_price'];
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              totalMRP.value += ((productPrice) * quantity) as int;
-                            });
+                          final productData = productSnapshot.data!.data() as Map<String, dynamic>;
+                          final productPrice = productData['p_price'];
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            totalMRP.value += ((productPrice) * quantity) as int;
+                          });
 
-                            return Container(
-                              margin: EdgeInsets.symmetric(horizontal: screenWidth*0.04, vertical: screenHeight*0.01),
-                              decoration: BoxDecoration(
-                                color: CupertinoColors.white,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: screenWidth*0.025, vertical: screenHeight*0.02),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Image.network(productData['p_image'], height: 120, width: 100, fit: BoxFit.contain),
-                                        SizedBox(width: screenWidth*0.02),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(productData['p_name'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black)),
-                                              SizedBox(height: screenHeight*0.005),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text("MRP - ${productPrice.toStringAsFixed(2)}", style: const TextStyle(color: Colors.black87)),
-                                                  GestureDetector(
-                                                    onTap: (){
-                                                      cartController.showQuantityBottomSheet(
-                                                        context: context,
-                                                        productDoc: productDoc,
-                                                        currentQuantity: quantity,
-                                                      );
-                                                    },
-                                                    child: Text("qty - $quantity", style: const TextStyle(color: Colors.black54)),
+                          return Container(
+                            margin: EdgeInsets.only(left: screenWidth*0.03, right: screenWidth*0.03, bottom: screenHeight*0.015),
+                            decoration: BoxDecoration(
+                              color: CupertinoColors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: screenWidth*0.02, vertical: screenHeight*0.02),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Image.network(productData['p_image'], height: screenHeight*0.15, width: screenWidth*0.25, fit: BoxFit.contain),
+                                      SizedBox(width: screenWidth*0.02),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(productData['p_name'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black)),
+                                            SizedBox(height: screenHeight*0.005),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text("MRP - ${productPrice.toStringAsFixed(2)}", style: const TextStyle(fontSize: 16, color: Colors.black87)),
+                                                GestureDetector(
+                                                  onTap: (){
+                                                    cartController.showQuantityBottomSheet(
+                                                      context: context,
+                                                      productDoc: productDoc,
+                                                      currentQuantity: quantity,
+                                                    );
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Qty - $quantity", style: const TextStyle(fontSize: 16, color: Colors.black87)),
+                                                      const Icon(Icons.arrow_drop_down, color: Colors.black87,)
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
-                                              Text(
-                                                "₹${(productPrice * quantity).toStringAsFixed(2)}",
-                                                style: const TextStyle(fontSize: 18, color: Colors.black),
-                                              ),
-                                            ],
-                                          ),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              "₹${(productPrice * quantity).toStringAsFixed(2)}",
+                                              style: const TextStyle(fontSize: 18, color: Colors.black),
+                                            ),
+                                          ],
                                         ),
-                                        IconButton(
-                                          onPressed: (){
-                                            cartController.removeToCart(productDoc: productDoc);
-                                          },
-                                          icon: const Icon(Icons.delete_outline, color: Colors.redAccent,),
-                                        ),
-                                      ],
-                                    ),
-                                    const Divider(),
-                                    const Row(
-                                      children: [
-                                        Icon(Icons.local_shipping_outlined, color: Color(0xFF1E2433)),
-                                        Text(" Delivery by", style: TextStyle(color: Colors.black)),
-                                        Text(" Mon, 24th Feb", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                      InkWell(
+                                        onTap: (){
+                                          cartController.removeToCart(productDoc: productDoc);
+                                        },
+                                        child: const Icon(Icons.delete_outline, color: Colors.redAccent,),
+                                      ),
+
+                                    ],
+                                  ),
+                                  const Divider(),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.local_shipping_outlined, color: Color(0xFF1E2433)),
+                                      const Text(" Delivery by ", style: TextStyle(fontSize: 16, color: Colors.black)),
+                                      Text(formattedDate, style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                        );
-                      },
-                    ),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
 
                   //billing section
@@ -171,8 +188,8 @@ class Cart extends StatelessWidget {
                     discount.value = (totalMRP.value * 0.1).toInt();
                     totalAmount.value = (totalMRP.value - discount.value + 99).toInt();
                     return Container(
-                      margin: EdgeInsets.symmetric(horizontal: screenWidth*0.035, vertical: screenHeight*0.02),
-                      padding: EdgeInsets.symmetric(horizontal: screenWidth*0.03, vertical: screenHeight*0.02),
+                      margin: EdgeInsets.symmetric(horizontal: screenWidth*0.03, vertical: screenHeight*0.015),
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth*0.03, vertical: screenHeight*0.015),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
@@ -181,7 +198,7 @@ class Cart extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("Price Details", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black)),
+                          const Text("Price Details", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black)),
                           const Divider(),
                           _priceDetailRow(title: "Total MRP", value: "₹${(totalMRP.value).toDouble().toStringAsFixed(2)}"),
                           _priceDetailRow(
@@ -190,17 +207,17 @@ class Cart extends StatelessWidget {
                             color: Colors.green,
                           ),
                           _priceDetailRow(title: "Coupon Discount", value: "- ₹0.00"),
-                          _priceDetailRow(title: "Delivery Fee", value: "₹99.00 FREE", color: Colors.green),
+                          _priceDetailRow(title: "Delivery Fee", value: "₹99.00", color: Colors.green),
                           const Divider(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text("Total Amount",
-                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black)
+                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black)
                               ),
                               Text(
                                 (totalAmount.value).toDouble().toStringAsFixed(2),
-                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),
+                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
                               ),
                             ],
                           ),
@@ -208,6 +225,23 @@ class Cart extends StatelessWidget {
                       ),
                     );
                   }),
+
+                  //proceed to buy button
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth*0.03, vertical: screenHeight*0.015),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: screenHeight*0.06,
+                      child: ElevatedButton(
+                        onPressed: (){},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.greenAccent,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
+                        ),
+                        child: const Text("Proceed to Buy", style: TextStyle(fontSize: 18, color: Colors.black),),
+                      ),
+                    ),
+                  ),
 
                 ],
               ),
@@ -226,8 +260,8 @@ Widget _priceDetailRow({required String title, required String value, Color colo
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: const TextStyle(fontSize: 14, color: Colors.black)),
-        Text(value, style: TextStyle(fontSize: 14, fontWeight: isBold ? FontWeight.bold : FontWeight.normal, color: color)),
+        Text(title, style: const TextStyle(fontSize: 16, color: Colors.black)),
+        Text(value, style: TextStyle(fontSize: 16, fontWeight: isBold ? FontWeight.bold : FontWeight.normal, color: color)),
       ],
     ),
   );
