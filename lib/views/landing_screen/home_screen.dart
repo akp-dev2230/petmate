@@ -15,95 +15,65 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-  final drawerIconList = [Icons.home, Icons.category, Icons.local_offer, Icons.local_pharmacy, Icons.person];
-  final drawerIconName = ['Home', 'Categories', 'Offer Zone', 'Pharmacy', 'Account'];
-
   @override
   Widget build(BuildContext context) {
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         title: const Row(
           children: [
             Icon(Icons.location_on, color: Colors.black),
             SizedBox(width: 5),
-            Text("Nature Huts, 140603", style: TextStyle(color: Colors.black)),
+            Text("Nature Huts, 140603"),
           ],
         ),
-      ),
-      drawer: Drawer(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.greenAccent),
-              child: Text('Menu', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: drawerIconName.length,
-              itemBuilder: (BuildContext context, int index){
-                return ListTile(
-                  leading: Icon(drawerIconList[index]),
-                  title: Text(drawerIconName[index], style: Theme.of(context).textTheme.bodyLarge,),
-                  onTap: (){},
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: Text('Logout', style: Theme.of(context).textTheme.bodyLarge,),
-              onTap: () async {
-                await FirebaseAuth.instance.signOut().then((value) {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
-                });
-              },
-            ),
-          ],
-        ),
+        centerTitle: true,
       ),
       body: backGround(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "Search for Food, Treats, Pharmacy",
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding:EdgeInsets.only(bottom: screenHeight*0.1),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: "Search for Food, Treats, Pharmacy",
+                      prefixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CategoryChip(label: "All"),
-                    CategoryChip(label: "Dogs", isSelected: true),
-                    CategoryChip(label: "Cats"),
-                    CategoryChip(label: "Small Pets"),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CategoryChip(label: "All"),
+                      CategoryChip(label: "Dogs", isSelected: true),
+                      CategoryChip(label: "Cats"),
+                      CategoryChip(label: "Small Pets"),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 10),
-              PromotionBanner(),
-              SizedBox(height: 10),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Text("Paw-pular Categories", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              ),
-              SizedBox(height: 10),
-              CategoryGrid(),
-            ],
+                SizedBox(height: 10),
+                PromotionBanner(),
+                SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Text("Paw-pular Categories", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                ),
+                SizedBox(height: 10),
+                CategoryGrid(),
+              ],
+            ),
           ),
         ),
       ),
@@ -188,9 +158,15 @@ class CategoryCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset("assets/images/bansalbhand.jpg"), // Replace with actual images
+          Image.asset(
+            "assets/images/bansalbhand.jpg",
+            fit: BoxFit.cover, // This makes the image cover its container
+          ),
           SizedBox(height: 5),
-          Text("Category", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+          Text(
+            "Category",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );

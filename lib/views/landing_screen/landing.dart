@@ -6,6 +6,7 @@ import 'package:petmate/views/Clinic/clinic.dart';
 import 'package:petmate/views/Userinfo/accountinfo.dart';
 import 'package:petmate/views/authentication_screen/loginscreen.dart';
 import 'package:petmate/views/categories/category_screen.dart';
+import 'package:petmate/views/landing_screen/bottomnavbar.dart';
 import 'package:petmate/views/landing_screen/home_screen.dart';
 
 class Landing extends StatefulWidget {
@@ -16,58 +17,56 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
-
   // List of Screens for Bottom Navigation
-  final List<Widget> _pages = [
-    const HomeScreen(),
-    const CategoryScreen(),
-    const Clinic(),
-    const Cart(),
-    const Accountinfo(),
+  final List<Widget> _pages = const [
+    HomeScreen(),
+    CategoryScreen(),
+    Clinic(),
+    Cart(),
+    Accountinfo(),
   ];
+
+  // Using an RxInt to track the current index.
+  final RxInt currentNavIndex = 0.obs;
 
   @override
   void initState() {
     super.initState();
 
-    // Listen for authentication state changes
+    // Listen for authentication state changes.
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null && mounted) {
-        // Navigate to login screen if user is logged out
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()),);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
-    var currentNavIndex = 0.obs;
-
     return Scaffold(
-      body: Column(
+      // Set a background color (or image) so the floating effect is visible.
+      backgroundColor: Colors.grey[200],
+      body: Stack(
         children: [
-          Obx(()=> Expanded(child: _pages.elementAt(currentNavIndex.value)))
-        ],
-      ), // Display selected page
-      bottomNavigationBar: Obx( ()=>
-          BottomNavigationBar(
-            backgroundColor: Theme.of(context).navigationBarTheme.backgroundColor,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: Colors.green,
-            unselectedItemColor: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black87,
-            currentIndex: currentNavIndex.value,
-            onTap: (index){
-              currentNavIndex.value = index;
-            },
-            items: const[
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.category), label: "Categories"),
-              BottomNavigationBarItem(icon: Icon(Icons.add_rounded), label: "Clinic"),
-              BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
-            ],
+          // Main content.
+          Obx(() => _pages.elementAt(currentNavIndex.value)),
+
+          // Floating nav bar positioned at the bottom.
+          Positioned(
+            bottom: 18,
+            left: 0,
+            right: 0,
+            child: Obx(
+                  () => CustomBottomNavBar(
+                currentIndex: currentNavIndex.value,
+                onTabSelected: (index) => currentNavIndex.value = index,
+              ),
+            ),
           ),
+        ],
       ),
     );
   }

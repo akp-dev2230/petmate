@@ -7,7 +7,8 @@ class AppTheme {
 
     return ThemeData(
       appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xFF452c63),
+        backgroundColor: Color(0xFFD8BFD8),
+        titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w500,color: Colors.black),
         elevation: 2.0,
       ),
       useMaterial3: true,

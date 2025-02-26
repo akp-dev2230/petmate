@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petmate/background.dart';
 
 class Clinic extends StatefulWidget {
   const Clinic({super.key});
@@ -16,105 +17,109 @@ class _ClinicState extends State<Clinic> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pet Care Clinic'),
-        backgroundColor: Colors.greenAccent,
+        centerTitle: true,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              const Text(
-                'Meet Our Fear-Free Certified Team',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: screenHeight * 0.02),
-              Container(
-                width: double.infinity,
-                height: screenHeight * 0.4, // Set a fixed, reasonable height
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      _buildDoctorCard(
-                        'Dr. Swathi Hareendran',
-                        'Mom to Mashu, a rescue indie cat\n10 years of experience\nGeneral physician & soft tissue surgeon',
-                        'assets/images/bansalbhand.jpg',
-                      ),
-                      SizedBox(width: screenWidth * 0.02),
-                      _buildDoctorCard(
-                        'Dr. Remya Nair',
-                        'Mom to Aashu\n4 years of experience\nGeneral physician',
-                        'assets/images/bansalbhand.jpg',
-                      ),
-                    ],
+      body: backGround(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding:  EdgeInsets.only(left: screenWidth*0.035, bottom: screenHeight*0.11, right: screenWidth*0.02,top: screenHeight*0.02),
+            child: Column(
+              children: [
+                const Text(
+                  'Meet Our Fear-Free Certified Team',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-
-              const Text(
-                'Your pets new safe space',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: screenHeight * 0.02),
-              const Text(
-                'Experience Fear-Free veterinary care',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: screenHeight * 0.02),
-              Container(
-                width: double.infinity,
-                height: screenHeight * 0.4, // Set a fixed, reasonable height
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      _buildDoctorCard(
-                        'Dr. Swathi Hareendran',
-                        'Mom to Mashu, a rescue indie cat\n10 years of experience\nGeneral physician & soft tissue surgeon',
-                        'assets/images/bansalbhand.jpg',
-                      ),
-                      SizedBox(width: screenWidth * 0.02),
-                      _buildDoctorCard(
-                        'Dr. Remya Nair',
-                        'Mom to Aashu\n4 years of experience\nGeneral physician',
-                        'assets/images/bansalbhand.jpg',
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              SizedBox(height: screenHeight*0.02),
-              Container(
+                SizedBox(height: screenHeight * 0.02),
+                Container(
                   width: double.infinity,
-                  height: screenHeight * 0.4,
+                  height: screenHeight * 0.4, // Set a fixed, reasonable height
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
-                        veterinarycareCard("Vacciination Plans", context),
+                        _buildDoctorCard(
+                          'Dr. Swathi Hareendran',
+                          'Mom to Mashu, a rescue indie cat\n10 years of experience\nGeneral physician & soft tissue surgeon',
+                          'assets/images/bansalbhand.jpg',
+                        ),
                         SizedBox(width: screenWidth * 0.02),
-                        veterinarycareCard("Vacciination Plans", context),
-                        SizedBox(width: screenWidth * 0.02),
-                        veterinarycareCard("Vacciination Plans", context)
+                        _buildDoctorCard(
+                          'Dr. Remya Nair',
+                          'Mom to Aashu\n4 years of experience\nGeneral physician',
+                          'assets/images/bansalbhand.jpg',
+                        ),
                       ],
                     ),
-                  )
-              )
-            ],
+                  ),
+                ),
+        
+                const Text(
+                  'Your pets new safe space',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                const Text(
+                  'Experience Fear-Free veterinary care',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                Container(
+                  width: double.infinity,
+                  height: screenHeight * 0.4, // Set a fixed, reasonable height
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _buildDoctorCard(
+                          'Dr. Swathi Hareendran',
+                          'Mom to Mashu, a rescue indie cat\n10 years of experience\nGeneral physician & soft tissue surgeon',
+                          'assets/images/bansalbhand.jpg',
+                        ),
+                        SizedBox(width: screenWidth * 0.02),
+                        _buildDoctorCard(
+                          'Dr. Remya Nair',
+                          'Mom to Aashu\n4 years of experience\nGeneral physician',
+                          'assets/images/bansalbhand.jpg',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+        
+                SizedBox(height: screenHeight*0.02),
+                Container(
+                    width: double.infinity,
+                    height: screenHeight * 0.4,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          veterinarycareCard("Vacciination Plans", context),
+                          SizedBox(width: screenWidth * 0.02),
+                          veterinarycareCard("Vacciination Plans", context),
+                          SizedBox(width: screenWidth * 0.02),
+                          veterinarycareCard("Vacciination Plans", context)
+                        ],
+                      ),
+                    )
+                )
+              ],
+            ),
           ),
         ),
       ),
