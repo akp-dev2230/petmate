@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:petmate/background.dart';
 import 'package:petmate/views/Clinic/clinic.dart';
 import 'package:petmate/views/Pharmacy/pharmacy.dart';
 import 'package:petmate/views/Userinfo/accountinfo.dart';
@@ -66,42 +67,44 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Search for Food, Treats, Pharmacy",
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+      body: backGround(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: "Search for Food, Treats, Pharmacy",
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CategoryChip(label: "All"),
-                  CategoryChip(label: "Dogs", isSelected: true),
-                  CategoryChip(label: "Cats"),
-                  CategoryChip(label: "Small Pets"),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CategoryChip(label: "All"),
+                    CategoryChip(label: "Dogs", isSelected: true),
+                    CategoryChip(label: "Cats"),
+                    CategoryChip(label: "Small Pets"),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            PromotionBanner(),
-            SizedBox(height: 10),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text("Paw-pular Categories", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            ),
-            SizedBox(height: 10),
-            CategoryGrid(),
-          ],
+              SizedBox(height: 10),
+              PromotionBanner(),
+              SizedBox(height: 10),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Text("Paw-pular Categories", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ),
+              SizedBox(height: 10),
+              CategoryGrid(),
+            ],
+          ),
         ),
       ),
     );

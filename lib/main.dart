@@ -31,8 +31,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'PetMate',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme(context),
-      darkTheme: AppTheme.darkTheme(context),
+      theme: AppTheme.appTheme(context),
       themeMode: ThemeMode.system,
       home: isLoggedIn ? const Landing() : const IntroPage(),
     );
