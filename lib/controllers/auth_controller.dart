@@ -11,6 +11,14 @@ class AuthController extends GetxController{
     try{
       userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email, password: password);
+      if(userCredential.user !=null && !userCredential.user!.emailVerified){
+        Get.snackbar("","",
+          titleText: const Text("Warning", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+          messageText: const Text("Please verify your email before you log in.", style: TextStyle(fontSize: 16, color: Colors.black),),
+          backgroundColor: Colors.white,
+        );
+        return null;
+      }
     } on FirebaseAuthException catch(e){
       Get.snackbar("","",
         titleText: const Text("Error", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),

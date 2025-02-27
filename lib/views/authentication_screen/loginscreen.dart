@@ -30,11 +30,13 @@ class _LoginScreenState extends State<LoginScreen> {
         email: emailController.text,
         password: passController.text,
       ).then((value){
-        Get.off(const Landing());
-        Get.snackbar("","",
-          titleText: const Text("Login Successfully", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
-          backgroundColor: Colors.white,
-        );
+        if(value != null){
+          Get.off(const Landing());
+          Get.snackbar("","",
+            titleText: const Text("Login Successfully", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
+            backgroundColor: Colors.white,
+          );
+        }
       });
     }catch(e){
       Get.snackbar("","",

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   static ThemeData appTheme(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double fontSize = screenWidth > 600 ? 22 : 18;
 
     return ThemeData(
       appBarTheme: const AppBarTheme(
