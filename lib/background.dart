@@ -6,11 +6,12 @@ Widget backGround({required Widget child}){
     height: double.infinity,
     decoration: const BoxDecoration(
       gradient: LinearGradient(
-        begin: Alignment.topLeft, // Starting point of the gradient
-        end: Alignment.bottomRight, // Ending point of the gradient
+        begin: Alignment.topCenter, // Starting point of the gradient
+        end: Alignment.bottomCenter, // Ending point of the gradient
         colors: [
-          Color(0xFFD8BFD8),  // First gradient color
-          Color(0xFF6f4685),  // Second gradient color
+          // Color(0xFF6f4685),  // First gradient color
+          Color(0xFF6fa8dc),
+          Colors.white// Second gradient color
         ],
       ),
     ),

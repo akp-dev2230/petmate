@@ -21,11 +21,12 @@ class WishlistScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        title: Text("Wishlist", style: Theme.of(context).appBarTheme.titleTextStyle,),
         leading: IconButton(
           onPressed: (){
             Get.back();
           },
-          icon: const Icon(Icons.arrow_back, color: Colors.black,),
+          icon: const Icon(Icons.arrow_back, color: Colors.white,),
         ),
       ),
       body: StreamBuilder(
@@ -33,11 +34,10 @@ class WishlistScreen extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
             if(!snapshot.hasData){
               return const Center(
-                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.greenAccent),),
+                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Color(0xFF073763)),),
               );
             }else if(snapshot.data!.docs.isEmpty){
-              return Container(
-                color: Theme.of(context).appBarTheme.backgroundColor,
+              return backGround(
                 child: Center(
                   child: Text("No Wishlist Found", style: Theme.of(context).textTheme.bodyLarge,),
                 ),
@@ -69,12 +69,12 @@ class WishlistScreen extends StatelessWidget {
                                       : "${data[index]['p_name']}",
                                     style: const TextStyle(fontSize: 16, color: Colors.black),
                                   ),
-                                  subtitle: Text("₹${data[index]['p_price']}.00", style: Theme.of(context).textTheme.bodyMedium,),
+                                  subtitle: Text("₹${data[index]['p_price']}.00", style: TextStyle(fontSize: 18, color: Colors.green.shade800),),
                                   trailing: IconButton(
                                     onPressed: (){
                                       controller.removeFromWishlist(docId: data[index].id);
                                     },
-                                    icon: const Icon(Icons.favorite,color: Colors.redAccent,),
+                                    icon: const Icon(Icons.favorite, size: 30, color: Color(0xFFff1a1a),),
                                   )
                                 ),
                               ),

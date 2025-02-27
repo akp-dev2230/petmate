@@ -112,7 +112,7 @@ class _IntroPageState extends State<IntroPage> {
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Display()));
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.greenAccent,
+                      backgroundColor: const Color(0xFF0b5394),
                       foregroundColor: Colors.black,
                       padding: EdgeInsets.symmetric(
                         vertical: MediaQuery.of(context).orientation == Orientation.portrait ? screenHeight*0.02 : screenHeight*0.05,
@@ -125,7 +125,7 @@ class _IntroPageState extends State<IntroPage> {
                     child: const Text(
                       'Get Started',
                       style: TextStyle(
-                        color: Color(0xFF1E2433),
+                        color: Color(0xFFf3f6f4),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),

@@ -19,7 +19,7 @@ class CustomBottomNavBar extends StatelessWidget {
       // The margin here creates space from the edges so it appears floating.
       margin: EdgeInsets.symmetric(horizontal: screenWidth*0.06),
       decoration: BoxDecoration(
-        color: const Color(0xFF452c63), // Set your nav bar color here.
+        color: const Color(0xFF073763), // Set your nav bar color here.
         borderRadius: BorderRadius.circular(30),
         boxShadow: const [
           // Shadow to give a floating effect.
@@ -38,7 +38,8 @@ class CustomBottomNavBar extends StatelessWidget {
             onPressed: () => onTabSelected(0),
             icon: Icon(
               Icons.home,
-              color: currentIndex == 0 ? const Color(0xFFc54b8c) : Colors.white70,
+              size: currentIndex == 0 ? 30 : 22,
+              color: Colors.white,
             ),
           ),
           // Categories Icon
@@ -46,7 +47,8 @@ class CustomBottomNavBar extends StatelessWidget {
             onPressed: () => onTabSelected(1),
             icon: Icon(
               Icons.category,
-              color: currentIndex == 1 ? const Color(0xFFc54b8c) : Colors.white70,
+              size: currentIndex == 1 ? 30 : 22,
+              color: Colors.white,
             ),
           ),
           // Clinic Icon
@@ -54,7 +56,8 @@ class CustomBottomNavBar extends StatelessWidget {
             onPressed: () => onTabSelected(2),
             icon: Icon(
               Icons.add_rounded,
-              color: currentIndex == 2 ? const Color(0xFFc54b8c) : Colors.white70,
+              size: currentIndex == 2 ? 30 : 22,
+              color: Colors.white,
             ),
           ),
           // Cart Icon
@@ -62,7 +65,8 @@ class CustomBottomNavBar extends StatelessWidget {
             onPressed: () => onTabSelected(3),
             icon: Icon(
               Icons.shopping_cart,
-              color: currentIndex == 3 ? const Color(0xFFc54b8c) : Colors.white70,
+              size: currentIndex == 3 ? 30 : 22,
+              color: Colors.white,
             ),
           ),
           // Account Icon
@@ -70,7 +74,8 @@ class CustomBottomNavBar extends StatelessWidget {
             onPressed: () => onTabSelected(4),
             icon: Icon(
               Icons.person,
-              color: currentIndex == 4 ? const Color(0xFFc54b8c) : Colors.white70,
+              size: currentIndex == 4 ? 30 : 22,
+              color: Colors.white,
             ),
           ),
         ],

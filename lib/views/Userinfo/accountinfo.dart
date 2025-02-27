@@ -26,124 +26,124 @@ class Accountinfo extends StatelessWidget {
     return Scaffold(
       body: backGround(
         child: StreamBuilder(
-          stream: FirestoreServices.getUser(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-        
-            if(!snapshot.hasData){
-              return const Center(
-                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.greenAccent),),
-              );
-            }else if(snapshot.data!.docs.isEmpty){
-              return Center(
-                child: Text("No User Found", style: Theme.of(context).textTheme.bodyLarge,),
-              );
-            }else{
-              var data = snapshot.data!.docs[0];
-              return SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: screenHeight*0.1),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Profile Information
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Stack(
-                            children: [
-                              CircleAvatar(
-                                radius: 70,
-                                backgroundImage: (data['profileImageUrl'] != null && data['profileImageUrl'].toString().isNotEmpty)
-                                    ? NetworkImage(data['profileImageUrl'])
-                                    : const AssetImage("assets/images/bansalbhand.jpg") as ImageProvider,
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: CircleAvatar(
-                                  backgroundColor: CupertinoColors.systemGrey5,
-                                  child: IconButton(
-                                    icon: const Icon(Icons.photo_library, color: Colors.orangeAccent,),
-                                    onPressed: (){
-                                      controller.pickAndUploadPhoto();
-                                    },
-                                  ),
+            stream: FirestoreServices.getUser(),
+            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+          
+              if(!snapshot.hasData){
+                return const Center(
+                  child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.greenAccent),),
+                );
+              }else if(snapshot.data!.docs.isEmpty){
+                return Center(
+                  child: Text("No User Found", style: Theme.of(context).textTheme.bodyLarge,),
+                );
+              }else{
+                var data = snapshot.data!.docs[0];
+                return SafeArea(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: screenHeight*0.1),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Profile Information
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Stack(
+                              children: [
+                                CircleAvatar(
+                                  radius: 70,
+                                  backgroundImage: (data['profileImageUrl'] != null && data['profileImageUrl'].toString().isNotEmpty)
+                                      ? NetworkImage(data['profileImageUrl'])
+                                      : const AssetImage("assets/images/bansalbhand.jpg") as ImageProvider,
                                 ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: screenHeight*0.02),
-                          Text((data['name'] ?? "").isEmpty ? "Name" :"${data['name']}", style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          Text("${data['email']}", style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: screenHeight*0.03),
-                      // Settings Options
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth*0.05),
-                        child: Card(
-                          elevation: 2.0,
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            children: [
-                              ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: profileIconsTitle.length,
-                                itemBuilder: (context, index){
-                                  return ListTile(
-                                    leading: Container(
-                                      padding: const EdgeInsets.all(8.0),
-                                      decoration: BoxDecoration(
-                                        color: Colors.teal.shade50,
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      child: Icon(profileIcons[index], color: Colors.teal,),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: CircleAvatar(
+                                    backgroundColor: CupertinoColors.systemGrey5,
+                                    child: IconButton(
+                                      icon: const Icon(Icons.photo_library, color: Colors.orangeAccent,),
+                                      onPressed: (){
+                                        controller.pickAndUploadPhoto();
+                                      },
                                     ),
-                                    title: Text(profileIconsTitle[index], style: const TextStyle(fontSize: 18, color: Colors.black),),
-                                    trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black,),
-                                    onTap: (){
-                                      Get.to(const WishlistScreen());
-                                    },
-                                  );
-                                },
-                              ),
-                              const Divider(),
-                              ListTile(
-                                leading: Container(
-                                  padding: const EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.redAccent.withAlpha(25),
-                                    borderRadius: BorderRadius.circular(50),
                                   ),
-                                  child: const Icon(Icons.logout, color: Colors.red,),
                                 ),
-                                title: const Text(
-                                  "Log out",
-                                  style: TextStyle(color: Colors.red),
+                              ],
+                            ),
+                            SizedBox(height: screenHeight*0.02),
+                            Text((data['name'] ?? "").isEmpty ? "Name" :"${data['name']}", style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            Text("${data['email']}", style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: screenHeight*0.03),
+                        // Settings Options
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: screenWidth*0.05),
+                          child: Card(
+                            elevation: 2.0,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              children: [
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: profileIconsTitle.length,
+                                  itemBuilder: (context, index){
+                                    return ListTile(
+                                      leading: Container(
+                                        padding: const EdgeInsets.all(8.0),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFeeeeee),
+                                          borderRadius: BorderRadius.circular(50),
+                                        ),
+                                        child: Icon(profileIcons[index], color: const Color(0xFF0b5394),),
+                                      ),
+                                      title: Text(profileIconsTitle[index], style: const TextStyle(fontSize: 18, color: Colors.black),),
+                                      trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black,),
+                                      onTap: (){
+                                        Get.to(const WishlistScreen());
+                                      },
+                                    );
+                                  },
                                 ),
-                                onTap: () async {
-                                  await FirebaseAuth.instance.signOut().then((value) {
-                                    Get.off(const LoginScreen());
-                                  });
-                                },
-                              )
-                            ],
+                                const Divider(),
+                                ListTile(
+                                  leading: Container(
+                                    padding: const EdgeInsets.all(8.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.redAccent.withAlpha(25),
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    child: const Icon(Icons.logout, color: Colors.red,),
+                                  ),
+                                  title: const Text(
+                                    "Log out",
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                  onTap: () async {
+                                    await FirebaseAuth.instance.signOut().then((value) {
+                                      Get.off(const LoginScreen());
+                                    });
+                                  },
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              );
-            }
-          },
-        ),
+                );
+              }
+            },
+          ),
       ),
     );
   }

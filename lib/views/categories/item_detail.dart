@@ -48,7 +48,7 @@ class ItemDetail extends StatelessWidget {
             Get.back();
             controller.resetValues();
           },
-          icon: const Icon(Icons.arrow_back, color: Colors.black,),
+          icon: const Icon(Icons.arrow_back, color: Colors.white,),
         ),
         actions: [
           Obx(
@@ -61,15 +61,15 @@ class ItemDetail extends StatelessWidget {
                 }
               },
               icon: controller.isFav.value
-                  ? const Icon(Icons.favorite_outlined, color: Colors.redAccent,)
-                  : const Icon(Icons.favorite_outline, color: Colors.black,),
+                  ? const Icon(Icons.favorite_outlined, color: Color(0xFFff1a1a),)
+                  : const Icon(Icons.favorite_outline, color: Colors.white,),
             ),
           ),
           IconButton(
             onPressed: (){
               Share.share("Check out this amazing");
             },
-            icon: const Icon(Icons.share, color: Colors.black,),
+            icon: const Icon(Icons.share, color: Colors.white,),
           ),
         ],
         title: Text(productId['p_name']),
@@ -102,13 +102,12 @@ class ItemDetail extends StatelessWidget {
                           Text(
                             productId['p_name'], style: Theme.of(context).textTheme.titleMedium
                           ),
-                          Text("${productId['p_desc']}", style: Theme.of(context).textTheme.bodySmall,),
                           Row(
                             children: [
                               RatingBarIndicator(
                                 rating: double.parse(productId['p_rating'].toString()),
                                 itemBuilder: (context, index){
-                                  return const Icon(Icons.star, color: CupertinoColors.systemGreen,);
+                                  return const Icon(Icons.star, color: Colors.orangeAccent,);
                                 },
                                 itemCount: 5,
                                 itemSize: 20,
@@ -119,11 +118,10 @@ class ItemDetail extends StatelessWidget {
                           SizedBox(height: screenHeight*0.02,),
                           Text(
                             "₹${productId['p_price'].toStringAsFixed(2)}",
-                              style: Theme.of(context).textTheme.titleMedium
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green.shade800)
                           ),
-                          Text("Seller: ${productId['p_seller']}", style: Theme.of(context).textTheme.bodyMedium,),
                           SizedBox(height: screenHeight*0.01,),
-                          Divider(color: Theme.of(context).appBarTheme.foregroundColor,),
+                          const Divider(color: Colors.black,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -139,7 +137,7 @@ class ItemDetail extends StatelessWidget {
                                   }, icon: const Icon(Icons.remove)),
                                   Text(
                                     "${controller.quantity.value}",
-                                      style: Theme.of(context).textTheme.bodySmall
+                                      style: TextStyle(fontSize: 18, color: controller.quantity.value > 0 ? const Color(0xFFec2020) : Colors.black)
                                   ),
                                   IconButton(onPressed: (){
                                     controller.increaseQuantity(productId['p_quantity']);
@@ -151,20 +149,40 @@ class ItemDetail extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Divider(color: Theme.of(context).appBarTheme.foregroundColor,),
+                          const Divider(color: Colors.black,),
                           Text(
                             "Delivery & Services",
                               style: Theme.of(context).textTheme.titleMedium
                           ),
                           ListTile(
                             leading: const Icon(Icons.local_shipping),
-                            title: Text("Get it by $formattedDate"),
+                            title: Row(
+                              children: [
+                                Text("Get it by ", style: Theme.of(context).textTheme.bodyMedium,),
+                                Text(formattedDate, style: Theme.of(context).textTheme.titleMedium,),
+                              ],
+                            ),
                           ),
-                          const ListTile(
-                            leading: Icon(Icons.repeat),
-                            title: Text("7 days Return & Exchange"),
+                          ListTile(
+                            leading: const Icon(Icons.repeat),
+                            title: Row(
+                              children: [
+                                Text("7 days ", style: Theme.of(context).textTheme.titleMedium,),
+                                Text("Return & Exchange", style: Theme.of(context).textTheme.bodyMedium,),
+                              ],
+                            ),
                           ),
-                          SizedBox(height: screenHeight*0.07,)
+                          const Divider(color: Colors.black,),
+                          Row(
+                            children: [
+                              Text("Seller: ", style: Theme.of(context).textTheme.titleMedium,),
+                              Text(productId['p_seller'], style: Theme.of(context).textTheme.bodyMedium,),
+                            ],
+                          ),
+                          Text("${productId['p_desc']}", style: Theme.of(context).textTheme.bodySmall,),
+
+                          SizedBox(height: screenHeight*0.07,),
+
                         ],
                       ),
                     ),
@@ -187,7 +205,8 @@ class ItemDetail extends StatelessWidget {
                             width: double.infinity,
                             height: double.infinity,
                             color: CupertinoColors.systemGrey6,
-                            child: Center(child: Text("₹${(controller.totalPrice.value).toStringAsFixed(2)}", style: const TextStyle(color: Colors.black),)),
+                            child: Center(child: Text("₹${(controller.totalPrice.value).toStringAsFixed(2)}", 
+                              style: TextStyle(color: controller.totalPrice.value > 0 ? Colors.green.shade800 : Colors.black),)),
                           ),
                         ),
                         Expanded(
@@ -210,12 +229,12 @@ class ItemDetail extends StatelessWidget {
                             child: Container(
                               width: double.infinity,
                               height: double.infinity,
-                              color: Colors.greenAccent,
+                              color: const Color(0xFF0b5394),
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("Add to Cart ", style: TextStyle(color: Colors.black)),
-                                  Icon(CupertinoIcons.cart_fill, color: Colors.black,)
+                                  Text("Add to Cart ", style: TextStyle(color: Color(0xFFf3f6f4))),
+                                  Icon(CupertinoIcons.cart_fill, color: Color(0xFFf3f6f4),)
                                 ],
                               ),
                             ),

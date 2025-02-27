@@ -36,7 +36,7 @@ class CartController extends GetxController{
         return StatefulBuilder(
           builder: (context, setStateSB) {
             return Container(
-              color: Theme.of(context).appBarTheme.backgroundColor,
+              color: Colors.white,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -67,10 +67,10 @@ class CartController extends GetxController{
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(color: isSelected ? Colors.greenAccent.shade400
+                                border: Border.all(color: isSelected ? const Color(0xFFec2020)
                                     : (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)),
                               ),
-                              child: Text('$qtyValue', style: TextStyle(color: isSelected ? Colors.greenAccent.shade400
+                              child: Text('$qtyValue', style: TextStyle(color: isSelected ? const Color(0xFFec2020)
                                   : (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black),
                                 fontWeight: FontWeight.bold,),
                               ),
@@ -88,7 +88,7 @@ class CartController extends GetxController{
                         Navigator.of(context).pop(tempSelectedQty);
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.greenAccent,
+                        backgroundColor: const Color(0xFF0b5394),
                         shape: const RoundedRectangleBorder(),
                       ),
                       child: const Text('DONE', style: TextStyle(color: Colors.white),),

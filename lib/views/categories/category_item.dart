@@ -14,10 +14,9 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          iconTheme: const IconThemeData(color: Colors.black),
-          title: Text("$categoryName",),
-        centerTitle: true,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: Text("$categoryName",),
       ),
       body: backGround(
         child: StreamBuilder(
@@ -26,7 +25,7 @@ class CategoryItem extends StatelessWidget {
             if(!snapshot.hasData){
               return const Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Colors.greenAccent),
+                  valueColor: AlwaysStoppedAnimation(Color(0xFF073763)),
                 ),
               );
             }else if(snapshot.data!.docs.isEmpty){
@@ -79,7 +78,7 @@ class CategoryItem extends StatelessWidget {
                                 style: const TextStyle(color: Colors.black, fontSize: 16,),
                               ),
                               const SizedBox(height: 10,),
-                              Text("₹${data[index]['p_price'].toStringAsFixed(2)}", style: const TextStyle(color: Colors.black, fontSize: 16,)),
+                              Text("₹${data[index]['p_price'].toStringAsFixed(2)}", style: TextStyle(color: Colors.green.shade800, fontSize: 16,)),
                               const SizedBox(height: 10,),
                             ],
                           ),

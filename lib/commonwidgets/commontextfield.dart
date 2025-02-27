@@ -7,10 +7,10 @@ Widget commonTextfield({controller, obstxt, preFixIcon, hinttext, suFFixIcon, su
     cursorColor: Colors.black,
     style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.black),
     decoration: InputDecoration(
-      prefixIcon: Icon(preFixIcon, color: Colors.black,),
+      prefixIcon: Icon(preFixIcon, color: const Color(0xFF073763),),
       hintText: hinttext,
       hintStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.black),
-      suffixIcon: IconButton(onPressed: suffIconPressed, icon: Icon(suFFixIcon,color: Colors.black,)),
+      suffixIcon: IconButton(onPressed: suffIconPressed, icon: Icon(suFFixIcon,color: const Color(0xFF073763),)),
       enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
             borderSide: const BorderSide(

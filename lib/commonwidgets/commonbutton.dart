@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 Widget commonButton({width, height, onNavigate, buttonName}){
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
-      backgroundColor: const Color(0xFF452c63),
+      backgroundColor: const Color(0xFF0b5394),
       foregroundColor: Colors.black, // Text color
       shape: RoundedRectangleBorder(
         side: const BorderSide(
@@ -18,7 +18,7 @@ Widget commonButton({width, height, onNavigate, buttonName}){
     child: Text(
       buttonName,
       style: const TextStyle(
-        color: Colors.white70,
+        color: Color(0xFFf3f6f4),
         fontSize: 18,
         fontWeight: FontWeight.bold,
       ),

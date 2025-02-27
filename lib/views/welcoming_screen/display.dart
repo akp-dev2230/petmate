@@ -58,7 +58,7 @@ class _OnboardingScreenState extends State<Display> {
       height: 8,
       width: isActive ? 16 : 8,
       decoration: BoxDecoration(
-        color: isActive ? const Color(0xFF452c63) : Colors.black,
+        color: isActive ? const Color(0xFF0b5394) : Colors.black,
         borderRadius: BorderRadius.circular(4),
       ),
     );
@@ -145,7 +145,7 @@ class _OnboardingScreenState extends State<Display> {
                       ElevatedButton(
                         onPressed: _onNextPressed,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF452c63),
+                          backgroundColor: const Color(0xFF0b5394),
                           padding: EdgeInsets.symmetric(
                             horizontal: MediaQuery.of(context).orientation == Orientation.portrait ? screenWidth*0.35 : screenWidth*0.25,
                             vertical: MediaQuery.of(context).orientation == Orientation.portrait ? screenHeight*0.025 : screenHeight*0.05,
@@ -157,7 +157,7 @@ class _OnboardingScreenState extends State<Display> {
                         child: Text(
                           _currentPage == _pages.length - 1 ? "Login" : "Next",
                           style: const TextStyle(
-                            color: Colors.white70,
+                            color: Color(0xFFf3f6f4),
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
