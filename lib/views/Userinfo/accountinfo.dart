@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petmate/Services/firestore_services.dart';
 import 'package:petmate/background.dart';
-import 'package:petmate/controllers/profile_controller.dart';
+import 'package:petmate/views/Userinfo/manage_address.dart';
+import 'package:petmate/views/Userinfo/update_profile.dart';
 import 'package:petmate/views/Userinfo/wishlist_screen.dart';
 import 'package:petmate/views/authentication_screen/loginscreen.dart';
 
@@ -15,13 +15,19 @@ class Accountinfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    var controller = Get.put(ProfileController());
-
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     final profileIcons = [Icons.person, Icons.receipt_long, Icons.favorite_outline, Icons.home_work_rounded, Icons.policy, Icons.help_outline];
     final profileIconsTitle = ["Profile", "My Orders", "Wishlist", "Manage Address", "Privacy policy", "Help and support",];
+    final  profileScreens = [
+      const UpdateProfile(),
+      const Placeholder(),
+      const WishlistScreen(),
+      const ManageAddress(),
+      const Placeholder(),
+      const Placeholder(),
+    ];
 
     return Scaffold(
       body: backGround(
@@ -50,28 +56,11 @@ class Accountinfo extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Stack(
-                              children: [
-                                CircleAvatar(
-                                  radius: 70,
-                                  backgroundImage: (data['profileImageUrl'] != null && data['profileImageUrl'].toString().isNotEmpty)
-                                      ? NetworkImage(data['profileImageUrl'])
-                                      : const AssetImage("assets/images/bansalbhand.jpg") as ImageProvider,
-                                ),
-                                Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: CircleAvatar(
-                                    backgroundColor: CupertinoColors.systemGrey5,
-                                    child: IconButton(
-                                      icon: const Icon(Icons.photo_library, color: Colors.orangeAccent,),
-                                      onPressed: (){
-                                        controller.pickAndUploadPhoto();
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            CircleAvatar(
+                              radius: 70,
+                              backgroundImage: (data['profileImageUrl'] != null && data['profileImageUrl'].toString().isNotEmpty)
+                                  ? NetworkImage(data['profileImageUrl'])
+                                  : const AssetImage("assets/images/bansalbhand.jpg") as ImageProvider,
                             ),
                             SizedBox(height: screenHeight*0.02),
                             Text((data['name'] ?? "").isEmpty ? "Name" :"${data['name']}", style: Theme.of(context).textTheme.bodyLarge,
@@ -108,7 +97,7 @@ class Accountinfo extends StatelessWidget {
                                       title: Text(profileIconsTitle[index], style: const TextStyle(fontSize: 18, color: Colors.black),),
                                       trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black,),
                                       onTap: (){
-                                        Get.to(const WishlistScreen());
+                                        Get.to(profileScreens[index]);
                                       },
                                     );
                                   },
