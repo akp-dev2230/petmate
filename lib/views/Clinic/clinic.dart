@@ -48,13 +48,13 @@ class _ClinicState extends State<Clinic> {
                         _buildDoctorCard(
                           'Dr. Swathi Hareendran',
                           'Mom to Mashu, a rescue indie cat\n10 years of experience\nGeneral physician & soft tissue surgeon',
-                          'assets/images/bansalbhand.jpg',
+                          'assets/images/appTempPhoto.jpg',
                         ),
                         SizedBox(width: screenWidth * 0.02),
                         _buildDoctorCard(
                           'Dr. Remya Nair',
                           'Mom to Aashu\n4 years of experience\nGeneral physician',
-                          'assets/images/bansalbhand.jpg',
+                          'assets/images/appTempPhoto.jpg',
                         ),
                       ],
                     ),
@@ -89,13 +89,13 @@ class _ClinicState extends State<Clinic> {
                         _buildDoctorCard(
                           'Dr. Swathi Hareendran',
                           'Mom to Mashu, a rescue indie cat\n10 years of experience\nGeneral physician & soft tissue surgeon',
-                          'assets/images/bansalbhand.jpg',
+                          'assets/images/appTempPhoto.jpg',
                         ),
                         SizedBox(width: screenWidth * 0.02),
                         _buildDoctorCard(
                           'Dr. Remya Nair',
                           'Mom to Aashu\n4 years of experience\nGeneral physician',
-                          'assets/images/bansalbhand.jpg',
+                          'assets/images/appTempPhoto.jpg',
                         ),
                       ],
                     ),
@@ -202,7 +202,7 @@ Widget veterinarycareCard(String name,context ) {
               topRight: Radius.circular(16),
             ),
             child: Image.asset(
-              'assets/images/bansalbhand.jpg', // Replace with your actual image path
+              'assets/images/appTempPhoto.jpg', // Replace with your actual image path
               fit: BoxFit.cover,
               height: screenHeight*0.3, // Adjust height as desired
             ),

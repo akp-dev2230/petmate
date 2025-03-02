@@ -31,15 +31,15 @@ class Accountinfo extends StatelessWidget {
 
     return Scaffold(
       body: backGround(
-        child: StreamBuilder(
-            stream: FirestoreServices.getUser(),
+        child: FutureBuilder(
+            future: FirestoreServices.getUser(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
           
-              if(!snapshot.hasData){
+              if(snapshot.connectionState == ConnectionState.waiting){
                 return const Center(
-                  child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.greenAccent),),
+                  child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Color(0xFF073763)),),
                 );
-              }else if(snapshot.data!.docs.isEmpty){
+              }else if(!snapshot.hasData || snapshot.data!.docs.isEmpty){
                 return Center(
                   child: Text("No User Found", style: Theme.of(context).textTheme.bodyLarge,),
                 );
@@ -60,7 +60,7 @@ class Accountinfo extends StatelessWidget {
                               radius: 70,
                               backgroundImage: (data['profileImageUrl'] != null && data['profileImageUrl'].toString().isNotEmpty)
                                   ? NetworkImage(data['profileImageUrl'])
-                                  : const AssetImage("assets/images/bansalbhand.jpg") as ImageProvider,
+                                  : const AssetImage("assets/images/appTempPhoto.jpg") as ImageProvider,
                             ),
                             SizedBox(height: screenHeight*0.02),
                             Text((data['name'] ?? "").isEmpty ? "Name" :"${data['name']}", style: Theme.of(context).textTheme.bodyLarge,

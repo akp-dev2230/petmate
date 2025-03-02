@@ -109,7 +109,7 @@ class PromotionBanner extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Image.asset("assets/images/bansalbhand.jpg"), // Replace with actual image
+            Image.asset("assets/images/appTempPhoto.jpg"), // Replace with actual image
             Padding(
               padding: EdgeInsets.all(10),
               child: Text(
@@ -159,7 +159,7 @@ class CategoryCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            "assets/images/bansalbhand.jpg",
+            "assets/images/appTempPhoto.jpg",
             fit: BoxFit.cover, // This makes the image cover its container
           ),
           SizedBox(height: 5),

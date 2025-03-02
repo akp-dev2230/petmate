@@ -46,11 +46,11 @@ class Cart extends StatelessWidget {
         child: StreamBuilder(
             stream: FirestoreServices.getAddToCartItems(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-              if(!snapshot.hasData){
+              if(snapshot.connectionState == ConnectionState.waiting){
                 return const Center(
                   child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Color(0xFF073763)),),
                 );
-              }else if(snapshot.data!.docs.isEmpty){
+              }else if(!snapshot.hasData || snapshot.data!.docs.isEmpty){
                 return Center(
                   child: Text("No products found",style: Theme.of(context).textTheme.bodyLarge,),
                 );

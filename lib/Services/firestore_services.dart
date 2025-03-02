@@ -8,7 +8,7 @@ class FirestoreServices{
     if (uid == null) {
       throw Exception('User not logged in');
     }
-    return FirebaseFirestore.instance.collection("users").where('id', isEqualTo: uid).snapshots();
+    return FirebaseFirestore.instance.collection("users").where('id', isEqualTo: uid).get();
   }
 
   static getProducts(category){
