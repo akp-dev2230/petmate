@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:petmate/Services/firestore_services.dart';
 import 'package:petmate/background.dart';
 import 'package:petmate/controllers/cart_controller.dart';
@@ -51,9 +52,22 @@ class Cart extends StatelessWidget {
                   child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Color(0xFF073763)),),
                 );
               }else if(!snapshot.hasData || snapshot.data!.docs.isEmpty){
-                return Center(
-                  child: Text("No products found",style: Theme.of(context).textTheme.bodyLarge,),
+                return  Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Lottie.asset(
+                      'assets/animation/EmptyCart.json', // Replace with your Lottie file path
+                      height: screenHeight*0.25,
+                      repeat: true, // Loops the animation
+                    ),
+                    Text(
+                      "Your cart is empty!",
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
                 );
+
               }else{
                 var data = snapshot.data!.docs;
         

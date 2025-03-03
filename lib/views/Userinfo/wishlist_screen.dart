@@ -38,9 +38,23 @@ class WishlistScreen extends StatelessWidget {
               );
             }else if(snapshot.data!.docs.isEmpty){
               return backGround(
-                child: Center(
-                  child: Text("No Wishlist Found", style: Theme.of(context).textTheme.bodyLarge,),
-                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/wishlist.png",
+                      height: screenHeight*0.25, // Adjust height as needed
+                      width: screenWidth*0.5,  // Adjust width as needed
+                      fit: BoxFit.cover, // Adjust the fit if needed
+                    ),
+                    Text(
+                      "Wishlist",
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
+                )
+
               );
             }else{
               var data = snapshot.data!.docs;
