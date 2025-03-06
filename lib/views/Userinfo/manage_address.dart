@@ -12,7 +12,7 @@ class ManageAddress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    var controller = Get.put(ProfileController());
+    final ProfileController profileController = Get.put(ProfileController());
 
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -75,7 +75,7 @@ class ManageAddress extends StatelessWidget {
                                           vertical: screenHeight * 0.005),
                                       child: commonTextfield(
                                         context: context,
-                                        controller: controller.addNameController,
+                                        controller: profileController.addNameController,
                                         hinttext: "Name",
                                       ),
                                     ),
@@ -85,7 +85,7 @@ class ManageAddress extends StatelessWidget {
                                           vertical: screenHeight * 0.005),
                                       child: commonTextfield(
                                         context: context,
-                                        controller: controller.addMobileController,
+                                        controller: profileController.addMobileController,
                                         hinttext: "Mobile No",
                                       ),
                                     ),
@@ -100,15 +100,49 @@ class ManageAddress extends StatelessWidget {
                                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: screenWidth * 0.01,
-                                          vertical: screenHeight * 0.005),
-                                      child: commonTextfield(
-                                        context: context,
-                                        controller: controller.addressController,
-                                        hinttext: "Address (Flat No/Colony)*",
-                                      ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: screenWidth * 0.01,
+                                                vertical: screenHeight * 0.005),
+                                            child: commonTextfield(
+                                              context: context,
+                                              controller: profileController.pinCodeController,
+                                              hinttext: "Pincode*",
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: screenWidth * 0.002),
+                                        Expanded(
+                                          child: ElevatedButton(
+                                            onPressed: () async {
+                                              await profileController.getCurrentLocation();
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: const Color(0xFF073763), // Dark blue background
+                                              foregroundColor: Colors.white, // White text color
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(8), // Rounded corners
+                                              ),
+                                              elevation: 5, // Shadow effect
+                                            ),
+                                            child: const SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child:  Row(
+                                                children: [
+                                                  Icon(Icons.location_on_outlined, color: Colors.white,),
+                                                  Text(
+                                                    "Use my Location",
+                                                    style: TextStyle(fontSize: 13,),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     Row(
                                       children: [
@@ -119,8 +153,8 @@ class ManageAddress extends StatelessWidget {
                                                 vertical: screenHeight * 0.005),
                                             child: commonTextfield(
                                               context: context,
-                                              controller: controller.pinCodeController,
-                                              hinttext: "Pincode*",
+                                              controller: profileController.stateController,
+                                              hinttext: "State",
                                             ),
                                           ),
                                         ),
@@ -132,7 +166,7 @@ class ManageAddress extends StatelessWidget {
                                                 vertical: screenHeight * 0.005),
                                             child: commonTextfield(
                                               context: context,
-                                              controller: controller.cityController,
+                                              controller: profileController.cityController,
                                               hinttext: "City/Town*",
                                             ),
                                           ),
@@ -145,8 +179,8 @@ class ManageAddress extends StatelessWidget {
                                           vertical: screenHeight * 0.005),
                                       child: commonTextfield(
                                         context: context,
-                                        controller: controller.stateController,
-                                        hinttext: "State",
+                                        controller: profileController.addressController,
+                                        hinttext: "Address (Flat No/Colony)*",
                                       ),
                                     ),
 
@@ -158,11 +192,12 @@ class ManageAddress extends StatelessWidget {
                                       height: 50,
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          controller.createAddress();
+                                          profileController.createAddress();
                                           Navigator.pop(context); // Close modal on save
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: const Color(0xFF073763),
+                                          elevation: 5,
                                           shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(8)),
                                         ),
@@ -186,6 +221,7 @@ class ManageAddress extends StatelessWidget {
                       children: [
                         const Icon(Icons.add, color: Color(0xFF073763),),
                         Text("  Add Address", style: Theme.of(context).textTheme.titleMedium,),
+
                       ],
                     ),
                   ),

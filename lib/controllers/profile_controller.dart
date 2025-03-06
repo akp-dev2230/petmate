@@ -2,6 +2,8 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -123,6 +125,52 @@ class ProfileController extends GetxController {
     stateController.clear();
   }
 
+  var city = "".obs;
+  var state = "".obs;
+  var pinCode = "".obs;
 
+  // Function to fetch and update location
+  Future<void> getCurrentLocation() async {
+    try {
+      // Request location permission
+      LocationPermission permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+        throw Exception("Location permission denied");
+      }
 
+      // Get current position
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      // Convert lat & long to address
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude, position.longitude,
+      );
+
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+
+        // Update reactive variables
+        city.value = place.locality ?? "";
+        state.value = place.administrativeArea ?? "";
+        pinCode.value = place.postalCode ?? "";
+
+        // Update text controllers as well
+        cityController.text = city.value;
+        stateController.text = state.value;
+        pinCodeController.text = pinCode.value;
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+  @override
+  void onClose() {
+    // Dispose of the controllers when the page is closed
+    stateController.clear();
+    pinCodeController.clear();
+    cityController.clear();
+    super.onClose();
+  }
 }

@@ -46,6 +46,9 @@ dependencies:
   share_plus:
   image_picker:
   animate_do:
+  geolocator:
+  google_maps_flutter:
+  geocoding:
 
 
 dev_dependencies:

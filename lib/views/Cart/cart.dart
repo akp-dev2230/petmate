@@ -88,17 +88,45 @@ class Cart extends StatelessWidget {
                           child: Row(
                             children: [
                               const Icon(Icons.location_on, color: Colors.black),
-                              const Text(" Delivering to ", style: TextStyle(color: Colors.black),),
+                              const Text(" Delivering to ", style: TextStyle(color: Colors.black)),
                               const Text("140603", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
                               const Spacer(),
                               GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const Editaddress()));
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true, // Allows full-screen modal if needed
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                                    ),
+                                    builder: (context) {
+                                      return SingleChildScrollView(
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 16.0), // Padding for content
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min, // Adjust height dynamically
+                                            children: [
+                                              SizedBox(height: screenHeight*0.02,),
+                                              Center(
+                                                child: Text(
+                                                  "Choose Address",
+                                                  style: Theme.of(context).textTheme.bodyLarge,
+                                                ),
+                                              ),
+                                              
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
                                 },
-                                child: const Icon(Icons.edit, color: Colors.black ),
+                                child: const Icon(Icons.edit, color: Colors.black),
                               ),
                             ],
                           ),
+
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: screenWidth*0.03, vertical: screenHeight*0.015),
