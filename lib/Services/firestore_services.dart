@@ -23,4 +23,8 @@ class FirestoreServices{
     return FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('cart').snapshots();
   }
 
+  static getAddress(){
+    return FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('address').get();
+  }
+
 }

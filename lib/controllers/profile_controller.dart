@@ -10,12 +10,21 @@ class ProfileController extends GetxController {
 
   final uid = FirebaseAuth.instance.currentUser?.uid;
 
+  //profile update variables
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   RxString selectedGender = "".obs;
 
   Rx<Uint8List?> selectedImage = Rx<Uint8List?>(null);
   String filePath = '';
+
+  //address variables
+  final TextEditingController addNameController = TextEditingController();
+  final TextEditingController addMobileController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
+  final TextEditingController pinCodeController = TextEditingController();
+  final TextEditingController stateController = TextEditingController();
 
   void changeGender({required String gender}){
     selectedGender.value = gender;
@@ -92,6 +101,26 @@ class ProfileController extends GetxController {
         backgroundColor: Colors.white,
       );
     }
+  }
+
+
+  // method for adding a new address
+  Future<void> createAddress() async{
+    await FirebaseFirestore.instance.collection("users").doc(uid).collection('address').add({
+      'name' : addNameController.text.trim(),
+      'mobile' : addMobileController.text.trim(),
+      'address' : addressController.text.trim(),
+      'pinCode' : pinCodeController.text.trim(),
+      'city' : cityController.text.trim(),
+      'state' : stateController.text.trim(),
+    });
+
+    addNameController.clear();
+    addMobileController.clear();
+    addressController.clear();
+    pinCodeController.clear();
+    cityController.clear();
+    stateController.clear();
   }
 
 
