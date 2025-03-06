@@ -26,16 +26,23 @@ class ManageAddress extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: screenWidth*0.04, vertical: screenHeight*0.03),
           child: Column(
             children: [
-              SizedBox(
-                width: screenWidth * 0.8, // 80% of screen width
-                height: screenHeight*0.06,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent, // Transparent background
-                    shadowColor: Colors.transparent, // Remove shadow
-                    padding: EdgeInsets.zero, // Remove extra padding
+              Container(
+                width: double.infinity,
+                height: screenHeight*0.08,
+                padding: EdgeInsets.symmetric(horizontal: screenWidth*0.02, vertical: screenHeight*0.01),
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child:Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth*0.02, vertical: screenHeight*0.01),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  onPressed: () {
+                  child: InkWell(
+                    onTap:() {
                       showModalBottomSheet(
                         context: context,
                         isScrollControlled: true, // Makes modal take full height if needed
@@ -168,8 +175,14 @@ class ManageAddress extends StatelessWidget {
                         },
                       );
                     },
-                  child: Text("Add Address", style: Theme.of(context).textTheme.titleMedium,),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.add, color: Color(0xFF073763),),
+                        Text("  Add Address", style: Theme.of(context).textTheme.titleMedium,),
+                      ],
+                    ),
                   ),
+                ),
               ),
               SizedBox(height: screenHeight*0.02),
               Container(
