@@ -5,7 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:petmate/Services/firestore_services.dart';
 import 'package:petmate/background.dart';
 import 'package:petmate/controllers/cart_controller.dart';
-import 'package:petmate/views/Cart/editaddress.dart';
+import 'package:petmate/views/Userinfo/manage_address.dart';
 
 class Cart extends StatelessWidget {
   const Cart({super.key});
@@ -109,12 +109,34 @@ class Cart extends StatelessWidget {
                                             children: [
                                               SizedBox(height: screenHeight*0.02,),
                                               Center(
-                                                child: Text(
-                                                  "Choose Address",
-                                                  style: Theme.of(context).textTheme.bodyLarge,
+                                                child: Column(
+                                                  children: [
+                                                    Text(
+                                                      "Choose an address",
+                                                      style: Theme.of(context).textTheme.bodyLarge,
+                                                    ),
+                                                    SizedBox(height: screenHeight*0.02),
+
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageAddress()),);
+                                                      },
+                                                      style: ElevatedButton.styleFrom(
+                                                        backgroundColor: const Color(0xFF073763), // Dark blue background
+                                                        foregroundColor: Colors.white, // White text color
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(8), // Rounded corners
+                                                        ),
+                                                      ),
+                                                      child: const Text(
+                                                        "Add new address", style: TextStyle(fontSize: 16,),
+                                                      ),
+                                                    )
+
+                                                  ],
                                                 ),
                                               ),
-                                              
+
                                             ],
                                           ),
                                         ),

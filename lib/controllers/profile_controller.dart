@@ -173,4 +173,6 @@ class ProfileController extends GetxController {
     cityController.clear();
     super.onClose();
   }
+
+  var selectedAddress = "".obs;
 }
