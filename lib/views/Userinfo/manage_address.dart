@@ -50,126 +50,133 @@ class ManageAddress extends StatelessWidget {
                           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                         ),
                         builder: (context) {
-                          return SingleChildScrollView(
-                            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: screenHeight * 0.03,),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min, // Adjusts height dynamically
-                              children: [
-                                // Contact Details Section
-                                Padding(
-                                  padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
-                                  child: const Text(
-                                    "Contact Details",
-                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.01,
-                                      vertical: screenHeight * 0.005),
-                                  child: commonTextfield(
-                                    context: context,
-                                    controller: controller.addNameController,
-                                    hinttext: "Name",
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.01,
-                                      vertical: screenHeight * 0.005),
-                                  child: commonTextfield(
-                                    context: context,
-                                    controller: controller.addMobileController,
-                                    hinttext: "Mobile No",
-                                  ),
-                                ),
-
-                                SizedBox(height: screenHeight * 0.02),
-
-                                // Address Section
-                                Padding(
-                                  padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
-                                  child: const Text(
-                                    "Address",
-                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.01,
-                                      vertical: screenHeight * 0.005),
-                                  child: commonTextfield(
-                                    context: context,
-                                    controller: controller.addressController,
-                                    hinttext: "Address (Flat No/Colony)*",
-                                  ),
-                                ),
-                                Row(
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom, // Adjusts for keyboard
+                            ),
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min, // Adjusts height dynamically
                                   children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: screenWidth * 0.01,
-                                            vertical: screenHeight * 0.005),
-                                        child: commonTextfield(
-                                          context: context,
-                                          controller: controller.pinCodeController,
-                                          hinttext: "Pincode*",
+                                    // Contact Details Section
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02,),
+                                      child: const Text(
+                                        "Contact Details",
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: screenWidth * 0.01,
+                                          vertical: screenHeight * 0.005),
+                                      child: commonTextfield(
+                                        context: context,
+                                        controller: controller.addNameController,
+                                        hinttext: "Name",
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: screenWidth * 0.01,
+                                          vertical: screenHeight * 0.005),
+                                      child: commonTextfield(
+                                        context: context,
+                                        controller: controller.addMobileController,
+                                        hinttext: "Mobile No",
+                                      ),
+                                    ),
+
+                                    SizedBox(height: screenHeight * 0.02),
+
+                                    // Address Section
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02),
+                                      child: const Text(
+                                        "Address",
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: screenWidth * 0.01,
+                                          vertical: screenHeight * 0.005),
+                                      child: commonTextfield(
+                                        context: context,
+                                        controller: controller.addressController,
+                                        hinttext: "Address (Flat No/Colony)*",
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: screenWidth * 0.01,
+                                                vertical: screenHeight * 0.005),
+                                            child: commonTextfield(
+                                              context: context,
+                                              controller: controller.pinCodeController,
+                                              hinttext: "Pincode*",
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: screenWidth * 0.002),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: screenWidth * 0.01,
+                                                vertical: screenHeight * 0.005),
+                                            child: commonTextfield(
+                                              context: context,
+                                              controller: controller.cityController,
+                                              hinttext: "City/Town*",
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: screenWidth * 0.01,
+                                          vertical: screenHeight * 0.005),
+                                      child: commonTextfield(
+                                        context: context,
+                                        controller: controller.stateController,
+                                        hinttext: "State",
+                                      ),
+                                    ),
+
+                                    SizedBox(height: screenHeight * 0.01),
+
+                                    // Save Address Button
+                                    SizedBox(
+                                      width: double.infinity,
+                                      height: 50,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          controller.createAddress();
+                                          Navigator.pop(context); // Close modal on save
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: const Color(0xFF073763),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(8)),
+                                        ),
+                                        child: const Text(
+                                          "SAVE ADDRESS",
+                                          style: TextStyle(fontSize: 16, color: Colors.white),
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: screenWidth * 0.002),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: screenWidth * 0.01,
-                                            vertical: screenHeight * 0.005),
-                                        child: commonTextfield(
-                                          context: context,
-                                          controller: controller.cityController,
-                                          hinttext: "City/Town*",
-                                        ),
-                                      ),
-                                    ),
+
+                                    SizedBox(height: screenHeight * 0.02), // Extra space at bottom
                                   ],
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * 0.01,
-                                      vertical: screenHeight * 0.005),
-                                  child: commonTextfield(
-                                    context: context,
-                                    controller: controller.stateController,
-                                    hinttext: "State",
-                                  ),
-                                ),
-
-                                SizedBox(height: screenHeight * 0.01),
-
-                                // Save Address Button
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: 50,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      controller.createAddress();
-                                      Navigator.pop(context); // Close modal on save
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFF073763),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8)),
-                                    ),
-                                    child: const Text(
-                                      "SAVE ADDRESS",
-                                      style: TextStyle(fontSize: 16, color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-
-                                SizedBox(height: screenHeight * 0.02), // Extra space at bottom
-                              ],
+                              ),
                             ),
                           );
                         },
