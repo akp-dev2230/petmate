@@ -3,7 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petmate/app_theme.dart';
-import 'package:petmate/views/landing_screen/landing.dart';
+import 'package:petmate/views/landing_screen/bottomnavbar.dart';
+import 'package:petmate/views/landing_screen/home_screen.dart';
 import 'package:petmate/views/welcoming_screen/intropage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.appTheme(context),
       themeMode: ThemeMode.system,
-      home: isLoggedIn ? const Landing() : const IntroPage(),
+      home: isLoggedIn ? const CustomBottomNavBar() : const IntroPage(),
     );
   }
 }

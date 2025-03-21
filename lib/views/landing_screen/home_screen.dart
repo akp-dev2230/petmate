@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:petmate/background.dart';
-import 'package:petmate/views/Clinic/clinic.dart';
-import 'package:petmate/views/Pharmacy/pharmacy.dart';
-import 'package:petmate/views/Userinfo/accountinfo.dart';
-import 'package:petmate/views/authentication_screen/loginscreen.dart';
 import 'package:petmate/views/categories/category_screen.dart';
+import 'package:petmate/commonwidgets/commoncatg.dart';
+import '../categories/category_item.dart'; // Assuming this file exists
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,159 +13,99 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final categoryImage = [
+    "assets/images/Dogfood.jpeg",
+    "assets/images/catfood.jpeg",
+    "assets/images/Pharmacy.jpeg",
+    "assets/images/toys.jpeg",
+  ];
+
+  final categoryName = [
+    "Dog Food",
+    "Cat Food",
+    "Pharmacy",
+    "Toys",
+  ];
+
   @override
   Widget build(BuildContext context) {
-
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      // This AppBar ("Welcome") remains unless explicitly removed
       appBar: AppBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        elevation: 0,
-        title: const Row(
-          children: [
-            Icon(Icons.location_on, color: Colors.black),
-            SizedBox(width: 5),
-            Text("Nature Huts, 140603"),
-          ],
-        ),
+        title: const Text("Welcome To Petmate"),
         centerTitle: true,
       ),
       body: backGround(
         child: SingleChildScrollView(
           child: Padding(
-            padding:EdgeInsets.only(bottom: screenHeight*0.1),
+            padding: EdgeInsets.only(bottom: screenHeight * 0.1),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  "Paw-pular Categories",
+                    style: Theme.of(context).textTheme.titleMedium),
+                SizedBox(height: screenHeight*0.02),
                 Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: "Search for Food, Treats, Pharmacy",
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth*0.04, vertical: screenHeight*0.01),
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // 2 items per row
+                      crossAxisSpacing: screenWidth * 0.01,
+                      mainAxisSpacing: screenHeight * 0.006,
+                      childAspectRatio: 1, // Adjust this value to control card height/width ratio
+                    ),
+                    itemCount: categoryName.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return FadeInUp(
+                        delay: Duration(milliseconds: 100 * index),
+                        child: commonCatg(
+                          width: screenWidth * 0.25, // Adjusted for grid
+                          height: screenHeight * 0.15, // Adjusted for grid
+                          image: categoryImage[index],
+                          text: categoryName[index],
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CategoryItem(categoryName: categoryName[index]),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth*0.05),
+                  child: FadeInUp(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // Navigate to SecondScreen when clicked
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>const CategoryScreen()));
+                          },
+                          child: const Text(
+                            'View more',
+                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CategoryChip(label: "All"),
-                      CategoryChip(label: "Dogs", isSelected: true),
-                      CategoryChip(label: "Cats"),
-                      CategoryChip(label: "Small Pets"),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
-                PromotionBanner(),
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Text("Paw-pular Categories", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                ),
-                SizedBox(height: 10),
-                CategoryGrid(),
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class CategoryChip extends StatelessWidget {
-  final String label;
-  final bool isSelected;
-
-  CategoryChip({required this.label, this.isSelected = false});
-
-  @override
-  Widget build(BuildContext context) {
-    return Chip(
-      backgroundColor: isSelected ? Colors.lightGreenAccent : Colors.grey[200],
-      label: Text(label),
-    );
-  }
-}
-
-// PromotionBanner Widget
-class PromotionBanner extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.orange.shade100,
-        ),
-        child: Column(
-          children: [
-            Image.asset("assets/images/appTempPhoto.jpg"), // Replace with actual image
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Text(
-                "Stock up & Save! Up to 50% OFF",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// CategoryGrid Widget
-class CategoryGrid extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.all(10),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: 0.8,
-      ),
-      itemCount: 6,
-      itemBuilder: (context, index) {
-        return CategoryCard();
-      },
-    );
-  }
-}
-
-// CategoryCard Widget
-class CategoryCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            "assets/images/appTempPhoto.jpg",
-            fit: BoxFit.cover, // This makes the image cover its container
-          ),
-          SizedBox(height: 5),
-          Text(
-            "Category",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          ),
-        ],
       ),
     );
   }

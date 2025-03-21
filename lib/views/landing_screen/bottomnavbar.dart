@@ -1,85 +1,112 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:petmate/views/Cart/cart.dart';
+import 'package:petmate/views/Clinic/clinic.dart';
+import 'package:petmate/views/Userinfo/accountinfo.dart';
+import 'package:petmate/views/authentication_screen/loginscreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:petmate/views/landing_screen/home_screen.dart';
 
-class CustomBottomNavBar extends StatelessWidget {
-  final int currentIndex;
-  final Function(int) onTabSelected;
+class CustomBottomNavBar extends StatefulWidget {
+  const CustomBottomNavBar({super.key});
 
-  const CustomBottomNavBar({
-    super.key,
-    required this.currentIndex,
-    required this.onTabSelected,
-  });
+  @override
+  State<CustomBottomNavBar> createState() => _CustomBottomNavBarState();
+}
+
+class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
+  // List of Screens for Bottom Navigation
+  final List<Widget> _pages = const [
+    HomeScreen(), // Using your HomeScreen
+    Clinic(),
+    Cart(),
+    Accountinfo(),
+  ];
+
+  // Using an RxInt to track the current index
+  final RxInt currentNavIndex = 0.obs;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Listen for authentication state changes
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null && mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    return Container(
-      height: screenHeight*0.07,
-      // The margin here creates space from the edges so it appears floating.
-      margin: EdgeInsets.symmetric(horizontal: screenWidth*0.06),
-      decoration: BoxDecoration(
-        color: const Color(0xFF073763), // Set your nav bar color here.
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: const [
-          // Shadow to give a floating effect.
-          BoxShadow(
-            color: Colors.black26,
-            offset: Offset(0, 4),
-            blurRadius: 14,
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Obx(() => _pages.elementAt(currentNavIndex.value)),
+      bottomNavigationBar: Obx(
+            () => Container(
+          margin: EdgeInsets.symmetric(horizontal: screenWidth*0.08, vertical: screenHeight*0.02),
+          decoration: BoxDecoration(
+            color: const Color(0xFF073763),
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
-        ],
+          child: BottomNavigationBar(
+            currentIndex: currentNavIndex.value,
+            onTap: (index) => currentNavIndex.value = index,
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.black,
+            showUnselectedLabels: true,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.local_hospital),
+                label: 'Clinic',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart),
+                label: 'Cart',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Account',
+              ),
+            ],
+          ),
+        ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          // Home Icon
-          IconButton(
-            onPressed: () => onTabSelected(0),
-            icon: Icon(
-              Icons.home,
-              size: currentIndex == 0 ? 30 : 22,
-              color: Colors.white,
-            ),
-          ),
-          // Categories Icon
-          IconButton(
-            onPressed: () => onTabSelected(1),
-            icon: Icon(
-              Icons.category,
-              size: currentIndex == 1 ? 30 : 22,
-              color: Colors.white,
-            ),
-          ),
-          // Clinic Icon
-          IconButton(
-            onPressed: () => onTabSelected(2),
-            icon: Icon(
-              Icons.add_rounded,
-              size: currentIndex == 2 ? 30 : 22,
-              color: Colors.white,
-            ),
-          ),
-          // Cart Icon
-          IconButton(
-            onPressed: () => onTabSelected(3),
-            icon: Icon(
-              Icons.shopping_cart,
-              size: currentIndex == 3 ? 30 : 22,
-              color: Colors.white,
-            ),
-          ),
-          // Account Icon
-          IconButton(
-            onPressed: () => onTabSelected(4),
-            icon: Icon(
-              Icons.person,
-              size: currentIndex == 4 ? 30 : 22,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
+    );
+  }
+}
+
+// Temporary widget for home content if needed
+class _HomeContent extends StatelessWidget {
+  const _HomeContent();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Home Content'),
     );
   }
 }

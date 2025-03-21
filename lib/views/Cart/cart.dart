@@ -101,39 +101,33 @@ class Cart extends StatelessWidget {
                                     ),
                                     builder: (context) {
                                       return SingleChildScrollView(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 16.0), // Padding for content
+                                        child: Container(
+                                          width: double.infinity,
+                                          padding: EdgeInsets.symmetric(horizontal: screenWidth*0.02),
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             mainAxisSize: MainAxisSize.min, // Adjust height dynamically
                                             children: [
                                               SizedBox(height: screenHeight*0.02,),
-                                              Center(
-                                                child: Column(
-                                                  children: [
-                                                    Text(
-                                                      "Choose an address",
-                                                      style: Theme.of(context).textTheme.bodyLarge,
-                                                    ),
-                                                    SizedBox(height: screenHeight*0.02),
+                                              Text(
+                                                "Choose an address",
+                                                style: Theme.of(context).textTheme.bodyLarge,
+                                              ),
+                                              SizedBox(height: screenHeight*0.02),
 
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageAddress()),);
-                                                      },
-                                                      style: ElevatedButton.styleFrom(
-                                                        backgroundColor: const Color(0xFF073763), // Dark blue background
-                                                        foregroundColor: Colors.white, // White text color
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(8), // Rounded corners
-                                                        ),
-                                                      ),
-                                                      child: const Text(
-                                                        "Add new address", style: TextStyle(fontSize: 16,),
-                                                      ),
-                                                    )
-
-                                                  ],
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageAddress()),);
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: const Color(0xFF073763), // Dark blue background
+                                                  foregroundColor: Colors.white, // White text color
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(8), // Rounded corners
+                                                  ),
+                                                ),
+                                                child: const Text(
+                                                  "Add new address", style: TextStyle(fontSize: 16,),
                                                 ),
                                               ),
 

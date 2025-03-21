@@ -175,4 +175,10 @@ class ProfileController extends GetxController {
   }
 
   var selectedAddress = "".obs;
+  
+  Future <void> deleteAddress({addressDoc}) async{
+    await FirebaseFirestore.instance.collection("users").doc(uid).collection("address").doc(addressDoc).delete();
+  }  
+  
+  
 }

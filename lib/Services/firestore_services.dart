@@ -27,4 +27,9 @@ class FirestoreServices{
     return FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('address').get();
   }
 
+  static getDoctors(specialty){
+    return FirebaseFirestore.instance.collection("doctors").where('specialty', isEqualTo: specialty).snapshots();
+  }
+
+
 }

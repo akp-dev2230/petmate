@@ -8,20 +8,28 @@ Widget commonCatg({width, height, onTap, required String text, required String i
         height: height,
         decoration: BoxDecoration(
           color: Colors.white,
-          image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover,),
-          borderRadius: BorderRadius.circular(22),
-          border: Border.all( // ✅ Adds border
-            //color: Colors.green, // Change color as needed
-            width: 1, // Border thickness
-          ),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(text,style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),),
+          child:Column(
+            children: [
+              Text(text,
+                style: const TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+              ),),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.asset(
+                  image,
+                  fit: BoxFit.cover,
+                  height: height * 1,
+                  width: width * 3,
+                ),
+              ),
+            ],
+          )
         )
     ),
   );

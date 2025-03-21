@@ -7,7 +7,7 @@ import 'package:petmate/commonwidgets/commontextfield.dart';
 import 'package:petmate/controllers/auth_controller.dart';
 import 'package:petmate/views/authentication_screen/forgetpasswordscreen.dart';
 import 'package:petmate/views/authentication_screen/signupscreen.dart';
-import 'package:petmate/views/landing_screen/landing.dart';
+import 'package:petmate/views/landing_screen/home_screen.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
         password: passController.text,
       ).then((value){
         if(value != null){
-          Get.off(const Landing());
+          Get.off(const HomeScreen());
           Get.snackbar("","",
             titleText: const Text("Login Successfully", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
             backgroundColor: Colors.white,
