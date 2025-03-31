@@ -80,8 +80,8 @@ class Clinic extends StatelessWidget {
                                           ClipOval(
                                             child: Image.network(
                                               data[index]['imageUrl'],
-                                              width: 150,
-                                              height: 150,
+                                              width: 130,
+                                              height: 130,
                                               fit: BoxFit.cover,
                                             ),
                                           ),

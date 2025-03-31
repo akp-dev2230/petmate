@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petmate/Admin_panel/authentication/admin_login.dart';
 import 'package:petmate/background.dart';
 import 'package:petmate/commonwidgets/commonbutton.dart';
 import 'package:petmate/commonwidgets/commontextfield.dart';
 import 'package:petmate/controllers/auth_controller.dart';
 import 'package:petmate/views/authentication_screen/forgetpasswordscreen.dart';
 import 'package:petmate/views/authentication_screen/signupscreen.dart';
-import 'package:petmate/views/landing_screen/home_screen.dart';
+
+import '../landing_screen/bottomnavbar.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -31,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
         password: passController.text,
       ).then((value){
         if(value != null){
-          Get.off(const HomeScreen());
+          Get.off(const CustomBottomNavBar());
           Get.snackbar("","",
             titleText: const Text("Login Successfully", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.black),),
             backgroundColor: Colors.white,
@@ -79,7 +81,48 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).orientation == Orientation.portrait ? screenHeight*0.05 : screenHeight*0.07),
+                  SizedBox(height: MediaQuery.of(context).orientation == Orientation.portrait ? screenHeight*0.02 : screenHeight*0.07),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                          height: screenHeight*0.04,
+                          width: screenWidth*0.25,
+                          decoration: BoxDecoration(
+                              color: Color(0xFF073763),
+                              borderRadius: BorderRadius.circular(18)
+                          ),
+                          child: const Center(
+                            child:  Text("User Login",
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white
+                              ),),
+                          )
+                      ),
+                      Container(
+                        height: screenHeight*0.04,
+                        width: screenWidth*0.25,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF073763),
+                          borderRadius: BorderRadius.circular(18)
+                        ),
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminLogin()));
+                          },
+                          child: const Center(
+                            child:  Text("Admin login",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white
+                            ),),
+                          ),
+                        )
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: MediaQuery.of(context).orientation == Orientation.portrait ? screenHeight*0.03 : screenHeight*0.07),
                   Text(
                     "Login ",
                     style: Theme.of(context).textTheme.bodyLarge,

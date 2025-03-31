@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:petmate/background.dart';
 import 'package:petmate/views/categories/category_screen.dart';
 import 'package:petmate/commonwidgets/commoncatg.dart';
-import '../categories/category_item.dart'; // Assuming this file exists
+import '../categories/category_item.dart';
+import '../../widgets/doctors_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   final categoryImage = [
     "assets/images/Dogfood.jpeg",
     "assets/images/catfood.jpeg",
@@ -26,6 +26,18 @@ class _HomeScreenState extends State<HomeScreen> {
     "Cat Food",
     "Pharmacy",
     "Toys",
+  ];
+
+  final doctorIcons = [
+    Icons.person,
+    Icons.person,
+    Icons.person,
+  ];
+
+  final doctorName=[
+    "Pathologist",
+    "Dermatologist",
+    "Nutritionist"
   ];
 
   @override
@@ -44,29 +56,34 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Padding(
             padding: EdgeInsets.only(bottom: screenHeight * 0.1),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Paw-pular Categories",
-                    style: Theme.of(context).textTheme.titleMedium),
-                SizedBox(height: screenHeight*0.02),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth*0.04, vertical: screenHeight*0.01),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                  child: Text(
+                    "Paw-pular Categories",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: screenHeight * 0.01),
                   child: GridView.builder(
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // 2 items per row
+                      crossAxisCount: 2,
                       crossAxisSpacing: screenWidth * 0.01,
                       mainAxisSpacing: screenHeight * 0.006,
-                      childAspectRatio: 1, // Adjust this value to control card height/width ratio
+                      childAspectRatio: 1,
                     ),
                     itemCount: categoryName.length,
                     itemBuilder: (BuildContext context, int index) {
                       return FadeInUp(
                         delay: Duration(milliseconds: 100 * index),
                         child: commonCatg(
-                          width: screenWidth * 0.25, // Adjusted for grid
-                          height: screenHeight * 0.15, // Adjusted for grid
+                          width: screenWidth * 0.25,
+                          height: screenHeight * 0.15,
                           image: categoryImage[index],
                           text: categoryName[index],
                           onTap: () {
@@ -83,25 +100,34 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth*0.05),
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                   child: FadeInUp(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
                           onTap: () {
-                            // Navigate to SecondScreen when clicked
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>const CategoryScreen()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const CategoryScreen()));
                           },
                           child: const Text(
                             'View more',
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, ),
+                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
+                SizedBox(height: screenHeight * 0.03),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                  child: Text(
+                    "Our Expert Doctors",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                const DoctorsList(specialty: "Veterinarian"),
               ],
             ),
           ),

@@ -1,32 +1,84 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petmate/app_theme.dart';
 import 'package:petmate/views/landing_screen/bottomnavbar.dart';
-import 'package:petmate/views/landing_screen/home_screen.dart';
-import 'package:petmate/views/welcoming_screen/intropage.dart';
+import 'package:petmate/views/welcoming_screen/display.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() async{
+import 'Admin_panel/Home/admin_bottomnavbar.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   await Supabase.initialize(
     url: 'https://ragaowmdqvtrppxyjwjo.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhZ2Fvd21kcXZ0cnBweHlqd2pvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk4MDQ1NTEsImV4cCI6MjA1NTM4MDU1MX0.UYjjK56T5uxb5IfJmHF_zBRXNxKHWPbeaVzeQzVbCfI',
+    anonKey: 'your-anon-key',
   );
 
-  // Check if a user is already logged in
-  firebase_auth.User? user = firebase_auth.FirebaseAuth.instance.currentUser;
-  runApp(MyApp(isLoggedIn: user != null, userId: user?.uid));
+  runApp(const StartupApp());
+}
+
+class StartupApp extends StatelessWidget {
+  const StartupApp({super.key});
+
+  Future<Widget> _getInitialScreen() async {
+    firebase_auth.User? user = firebase_auth.FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      return const Display();
+    }
+
+    final uid = user.uid;
+    final firestore = FirebaseFirestore.instance;
+
+    try {
+      // Check if the user is an admin
+      final adminSnapshot = await firestore.collection('admin').doc(uid).get();
+      if (adminSnapshot.exists) {
+        return const AdminBottomnavbar();
+      }
+
+      // If not an admin, check if it's a normal user
+      final userSnapshot = await firestore.collection('users').doc(uid).get();
+      if (userSnapshot.exists) {
+        return const CustomBottomNavBar();
+      }
+
+      // Not found in either collection, go to intro page
+      return const Display();
+    } catch (e) {
+      // On error, return intro or handle gracefully
+      return const Display();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Widget>(
+      future: _getInitialScreen(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const MaterialApp(
+            home: Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            ),
+          );
+        }
+
+        return MyApp(home: snapshot.data!);
+      },
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
-  final bool isLoggedIn;
-  final String? userId;
-  const MyApp({super.key, required this.isLoggedIn, this.userId});
+  final Widget home;
+  const MyApp({super.key, required this.home});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -34,10 +86,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.appTheme(context),
       themeMode: ThemeMode.system,
-      home: isLoggedIn ? const CustomBottomNavBar() : const IntroPage(),
+      home: home,
     );
   }
 }
-
-
-

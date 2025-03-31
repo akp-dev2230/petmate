@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:petmate/views/Cart/cart.dart';
-import 'package:petmate/views/Clinic/clinic.dart';
-import 'package:petmate/views/Userinfo/accountinfo.dart';
+import 'package:petmate/Admin_panel/Admininfo/admininfo.dart';
+import 'package:petmate/Admin_panel/Home/admin_dashboard.dart';
 import 'package:petmate/views/authentication_screen/loginscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:petmate/views/landing_screen/home_screen.dart';
 
-class CustomBottomNavBar extends StatefulWidget {
-  const CustomBottomNavBar({super.key});
+class AdminBottomnavbar extends StatefulWidget {
+  const AdminBottomnavbar({super.key});
 
   @override
-  State<CustomBottomNavBar> createState() => _CustomBottomNavBarState();
+  State<AdminBottomnavbar> createState() => _AdminBottomnavbarState();
 }
 
-class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
+class _AdminBottomnavbarState extends State<AdminBottomnavbar> {
   // List of Screens for Bottom Navigation
   final List<Widget> _pages = const [
-    HomeScreen(), // Using your HomeScreen
-    Clinic(),
-    Cart(),
-    Accountinfo(),
+    AdminDashboard(),
+    Placeholder(),
+    Placeholder(),
+    Admininfo()
   ];
 
   // Using an RxInt to track the current index
@@ -77,15 +75,15 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'Home',
+                label: 'Dashboard',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.local_hospital),
-                label: 'Clinic',
+                label: 'Doctors',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.shopping_cart),
-                label: 'Cart',
+                label: 'Products',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
@@ -98,3 +96,4 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
     );
   }
 }
+
