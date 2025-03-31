@@ -13,7 +13,7 @@ import 'package:petmate/main.dart';
 void main() {
   testWidgets('App launches correctly and shows the appropriate screen', (WidgetTester tester) async {
     // Case 1: User is NOT logged in (should show IntroPage)
-    await tester.pumpWidget(const MyApp(isLoggedIn: false, userId: null));
+    await tester.pumpWidget(const MyApp(isLoggedIn: false, userId: null, home: null,));
 
     // Verify IntroPage is displayed
     expect(find.text('Get Started'), findsOneWidget);

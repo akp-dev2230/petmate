@@ -1,10 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:petmate/background.dart';
+import 'package:petmate/views/Clinic/clinic.dart';
 import 'package:petmate/views/categories/category_screen.dart';
 import 'package:petmate/commonwidgets/commoncatg.dart';
 import '../categories/category_item.dart';
-import '../../widgets/doctors_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../models/doctor_model.dart';
+import '../../widgets/doctor_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,13 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     "Toys",
   ];
 
-  final doctorIcons = [
-    Icons.person,
-    Icons.person,
-    Icons.person,
-  ];
-
-  final doctorName=[
+  final doctorSpecialties = [
     "Pathologist",
     "Dermatologist",
     "Nutritionist"
@@ -46,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      // This AppBar ("Welcome") remains unless explicitly removed
       appBar: AppBar(
         title: const Text("Welcome To Petmate"),
         centerTitle: true,
@@ -127,7 +123,65 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.02),
-                const DoctorsList(specialty: "Veterinarian"),
+                SizedBox(
+                  height: 280,
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance.collection('doctors').snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return const Center(child: Text('Something went wrong'));
+                      }
+
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                        return const Center(child: Text('No doctors found'));
+                      }
+
+                      final doctors = snapshot.data!.docs.map((doc) {
+                        final data = doc.data() as Map<String, dynamic>;
+                        return Doctor.fromMap({
+                          'id': doc.id,
+                          ...data,
+                        });
+                      }).toList();
+
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: doctors.length,
+                        itemBuilder: (context, index) {
+                          return FadeInUp(
+                            delay: Duration(milliseconds: 100 * index),
+                            child: DoctorCard(doctor: doctors[index]),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                  child: FadeInUp(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const Clinic()));
+                          },
+                          child: const Text(
+                            'For more info visit our clinic',
+                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
