@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petmate/Admin_panel/Admininfo/admininfo.dart';
+import 'package:petmate/Admin_panel/Doctors/doctors.dart';
 import 'package:petmate/Admin_panel/Home/admin_dashboard.dart';
 import 'package:petmate/views/authentication_screen/loginscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,7 +17,7 @@ class _AdminBottomnavbarState extends State<AdminBottomnavbar> {
   // List of Screens for Bottom Navigation
   final List<Widget> _pages = const [
     AdminDashboard(),
-    Placeholder(),
+    Doctors(),
     Placeholder(),
     Admininfo()
   ];
