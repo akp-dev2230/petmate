@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).orientation == Orientation.portrait ? screenHeight*0.02 : screenHeight*0.07),
-                  Row(
+                  /*Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                       ),
                     ],
-                  ),
+                  ),*/
                   SizedBox(height: MediaQuery.of(context).orientation == Orientation.portrait ? screenHeight*0.03 : screenHeight*0.07),
                   Text(
                     "Login ",

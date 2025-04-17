@@ -19,14 +19,11 @@ class Accountinfo extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     final profileIcons = [Icons.person, Icons.receipt_long, Icons.favorite_outline, Icons.home_work_rounded, Icons.policy, Icons.help_outline];
-    final profileIconsTitle = ["Profile", "My Orders", "Wishlist", "Manage Address", "Privacy policy", "Help and support",];
+    final profileIconsTitle = ["Profile", "Wishlist", "Manage Address"];
     final  profileScreens = [
       const UpdateProfile(),
-      const Placeholder(),
       const WishlistScreen(),
       const ManageAddress(),
-      const Placeholder(),
-      const Placeholder(),
     ];
 
     return Scaffold(
@@ -58,7 +55,7 @@ class Accountinfo extends StatelessWidget {
                             radius: 70,
                             backgroundImage: (data['profileImageUrl'] != null && data['profileImageUrl'].toString().isNotEmpty)
                                 ? NetworkImage(data['profileImageUrl'])
-                                : const AssetImage("assets/images/appTempPhoto.jpg") as ImageProvider,
+                                : const AssetImage("assets/images/Feeders.jpeg") as ImageProvider,
                           ),
                           SizedBox(height: screenHeight*0.02),
                           Text((data['name'] ?? "").isEmpty ? "Name" :"${data['name']}", style: Theme.of(context).textTheme.bodyLarge,

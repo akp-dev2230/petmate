@@ -70,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).orientation == Orientation.portrait ? screenHeight * 0.03 : screenHeight * 0.07,),
-                  Row(
+                  /*Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
@@ -109,7 +109,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           )
                       ),
                     ],
-                  ),
+                  ),*/
                   SizedBox(height: MediaQuery.of(context).orientation == Orientation.portrait ? screenHeight * 0.05 : screenHeight * 0.07,),
                   Text(
                     "Sign up ",

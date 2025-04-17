@@ -19,15 +19,18 @@ Widget commonCatg({width, height, onTap, required String text, required String i
                 fontSize: 16,
                 color: Colors.black,
               ),),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.asset(
-                  image,
-                  fit: BoxFit.cover,
-                  height: height * 1,
-                  width: width * 3,
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.asset(
+                    image,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
                 ),
-              ),
+              )
+
             ],
           )
         )
